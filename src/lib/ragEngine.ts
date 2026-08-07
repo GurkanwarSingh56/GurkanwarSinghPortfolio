@@ -1,4 +1,5 @@
-import { DEVELOPER_PROFILE, SAAS_PROJECTS, SKILL_CATEGORIES, WORK_EXPERIENCES, TELEMETRY_INITIAL } from "@/data/portfolioData";
+import { DEVELOPER_PROFILE, SKILL_CATEGORIES, WORK_EXPERIENCES, TELEMETRY_INITIAL } from "@/data/portfolioData";
+import { indexCmsProjectsForAI } from "@/lib/cmsParser";
 
 export interface KnowledgeChunk {
   id: string;
@@ -18,7 +19,7 @@ export interface RAGResult {
 }
 
 /**
- * Single source of truth RAG Knowledge Base indexed from portfolio data
+ * Single source of truth RAG Knowledge Base indexed from portfolio data & CMS schema
  */
 export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
   // Developer Profile & Bio
@@ -53,31 +54,8 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
     targetModuleId: "telemetry"
   },
 
-  // Projects Knowledge
-  {
-    id: "kb-proj-1",
-    topic: "NovaAgent AI Studio",
-    keywords: ["novaagent", "ai studio", "agent", "llm", "multi-agent", "pinecone", "fastapi", "langchain", "rag"],
-    content: `${SAAS_PROJECTS[0].title} (${SAAS_PROJECTS[0].subtitle}): ${SAAS_PROJECTS[0].longDescription} Key metrics: Token speed ${SAAS_PROJECTS[0].metrics[0].value}, Cost savings ${SAAS_PROJECTS[0].metrics[1].value}. Tech stack: Next.js 15, React 19, Three.js, Python FastAPI, Pinecone Vector DB.`,
-    targetModuleId: "projects",
-    targetProjectId: "antigravity-ai-studio"
-  },
-  {
-    id: "kb-proj-2",
-    topic: "PulseCloud Telemetry",
-    keywords: ["pulsecloud", "telemetry", "clickhouse", "golang", "webgl", "go", "ingestion", "3d graph", "observability"],
-    content: `${SAAS_PROJECTS[1].title} (${SAAS_PROJECTS[1].subtitle}): ${SAAS_PROJECTS[1].longDescription} Key metrics: Ingestion ${SAAS_PROJECTS[1].metrics[0].value}, P99 query speed ${SAAS_PROJECTS[1].metrics[1].value}, Compression ${SAAS_PROJECTS[1].metrics[2].value}. Tech stack: Go, ClickHouse DB, Three.js, WebSockets, Kubernetes.`,
-    targetModuleId: "projects",
-    targetProjectId: "hyperpulse-db-telemetry"
-  },
-  {
-    id: "kb-proj-3",
-    topic: "Nexus Infrastructure OS",
-    keywords: ["nexus", "terraform", "hcl", "wasm", "rust", "cloud", "cost", "aws", "gcp"],
-    content: `${SAAS_PROJECTS[2].title} (${SAAS_PROJECTS[2].subtitle}): ${SAAS_PROJECTS[2].longDescription} Key metrics: Cost reduction ${SAAS_PROJECTS[2].metrics[0].value}, HCL parsing ${SAAS_PROJECTS[2].metrics[1].value}. Tech stack: Next.js 15, Rust WebAssembly, Terraform HCL parser, Zustand.`,
-    targetModuleId: "projects",
-    targetProjectId: "nexus-cloud-visualizer"
-  },
+  // Rich CMS Project Chunks (NovaAgent, PulseCloud, Nexus OS, etc.)
+  ...indexCmsProjectsForAI(),
 
   // Tech Stack & Skills
   {
@@ -110,9 +88,8 @@ export const KNOWLEDGE_BASE: KnowledgeChunk[] = [
  */
 export function queryDigitalTwinRAG(userQuery: string): RAGResult {
   const queryLower = userQuery.toLowerCase().trim();
-  const queryWords = queryLower.split(/\s+/).filter(w => w.length > 2);
+  const queryWords = queryLower.split(/\s+/).filter((w) => w.length > 2);
 
-  // Score knowledge chunks based on keyword matches
   let bestChunk: KnowledgeChunk | null = null;
   let maxScore = 0;
   const matchedSources: string[] = [];
@@ -143,7 +120,7 @@ export function queryDigitalTwinRAG(userQuery: string): RAGResult {
 
   if (!bestChunk) {
     return {
-      answer: `I am Gurkanwar Singh's AI Digital Twin. I only answer questions strictly grounded in Gurkanwar's verified portfolio data to prevent hallucinations. You can ask me about his Next.js 15 / React 19 tech stack, SaaS projects (NovaAgent, PulseCloud, Nexus OS), GitHub & LeetCode stats, or career history.`,
+      answer: `I am Gurkanwar Singh's AI Digital Twin. I only answer questions strictly grounded in Gurkanwar's verified portfolio data and CMS project schemas. Ask me about project problem statements, tech stack choices, performance benchmarks, or lessons learned.`,
       confidence: 0,
       sources: ["Portfolio Verification Guardrail"]
     };

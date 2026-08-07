@@ -1,0 +1,245 @@
+[
+  {
+    "id": "antigravity-ai-studio",
+    "title": "NovaAgent AI Studio",
+    "subtitle": "Autonomous Multi-Agent AI Orchestration SaaS Platform",
+    "category": "AI & ML",
+    "featured": true,
+    "badgeColor": "border-cyan-500/40 text-cyan-400 bg-cyan-950/30",
+    "accentGradient": "from-cyan-500 to-indigo-600",
+    "problem": "Engineering teams building LLM multi-agent systems face severe prompt debugging friction, state deadlocks in recursive sub-agents, unoptimized token cost spikes, and lack of real-time graph visualization.",
+    "solution": "NovaAgent AI Studio delivers a visual drag-and-drop node graph control plane with sub-120ms token streaming, automated RAG vector embeddings, cyclic graph deadlock auditing, and sub-millisecond prompt caching.",
+    "architecture": {
+      "overview": "Event-driven microservice architecture with Next.js 15 RSC frontend streaming WebSockets to a high-concurrency Python FastAPI execution mesh and Pinecone Vector Database.",
+      "systemFlow": [
+        "Web Client",
+        "Next.js 15 Edge Gateway",
+        "FastAPI Agent Orchestrator",
+        "Pinecone Vector Store",
+        "Gemini LLM Inference Engine"
+      ],
+      "diagramUrl": "/images/novaagent-architecture.png",
+      "nodes": [
+        { "id": "node-1", "name": "Vercel Edge Gateway", "role": "SSL Termination & RSC Streaming", "latency": "12ms", "throughput": "14.2k rps" },
+        { "id": "node-2", "name": "FastAPI Orchestrator", "role": "Sub-agent thread isolation", "latency": "28ms", "throughput": "9.8k rps" },
+        { "id": "node-3", "name": "Pinecone Vector DB", "role": "HNSW Index similarity search", "latency": "65ms", "throughput": "1.4k tps" }
+      ]
+    },
+    "techStack": [
+      {
+        "name": "Next.js 15 (App Router)",
+        "category": "frontend",
+        "reasonForChoice": "React Server Components enable zero-bundle streaming and instant edge rendering for high-density SaaS dashboards.",
+        "version": "15.3.0"
+      },
+      {
+        "name": "React 19",
+        "category": "frontend",
+        "reasonForChoice": "Concurrent Mode & Suspense enable silky smooth graph rendering without blocking main thread UI.",
+        "version": "19.0.0"
+      },
+      {
+        "name": "Three.js / React Three Fiber",
+        "category": "frontend",
+        "reasonForChoice": "Provides 60 FPS WebGL 3D node graph visualizers for dynamic agent state topology rendering."
+      },
+      {
+        "name": "Python FastAPI",
+        "category": "backend",
+        "reasonForChoice": "Asynchronous AsyncIO event loop yields sub-30ms P99 latencies for high-volume LLM prompt processing."
+      },
+      {
+        "name": "Pinecone Vector DB",
+        "category": "database",
+        "reasonForChoice": "Delivers sub-50ms similarity search over 500k embedding vectors with HNSW indexing."
+      }
+    ],
+    "demoUrl": "https://novaagent-ai.vercel.app",
+    "githubUrl": "https://github.com/gurkanwarsingh/novaagent-studio",
+    "challenges": [
+      {
+        "title": "Recursive Sub-Agent Deadlocks",
+        "detail": "Recursive multi-agent communication loops caused infinite socket wait locks.",
+        "resolution": "Implemented cyclic graph detection algorithms and async token yield handlers to enforce strict execution bounds."
+      },
+      {
+        "title": "LLM Token Cost Spikes",
+        "detail": "Repeated prompt queries incurred heavy API cost overhead.",
+        "resolution": "Architected a sub-millisecond Semantic Prompt Cache layer saving 42% on API overhead."
+      }
+    ],
+    "futureScope": [
+      "Integrate local quantized Llama 3 models via WebGPU for client-side zero-cost inference.",
+      "Multi-region failover cluster for 99.999% uptime guarantee."
+    ],
+    "lessonsLearned": [
+      "Decoupling graph calculation logic to WebAssembly worker threads prevents main UI thread stutters.",
+      "Strict zero-hallucination prompt guardrails are essential for enterprise compliance."
+    ],
+    "performanceMetrics": [
+      {
+        "metric": "Token Processing Speed",
+        "value": "<120ms/tok",
+        "benchmark": "Industry Avg 350ms/tok",
+        "impact": "65% Faster Token Generation"
+      },
+      {
+        "metric": "API Cost Savings",
+        "value": "42%",
+        "benchmark": "Un-cached Baseline",
+        "impact": "$14,000 Saved Monthly"
+      },
+      {
+        "metric": "Active Agent Pipelines",
+        "value": "14,200+",
+        "benchmark": "Production Scale",
+        "impact": "1.2M+ Requests Ingested"
+      }
+    ],
+    "tags": ["AI Agents", "LangChain", "Vector DB", "FastAPI", "Next.js 15", "Three.js"],
+    "timeline": [
+      {
+        "phase": "Architecture & Prototyping",
+        "duration": "2 Weeks",
+        "deliverables": ["RAG Vector Schema", "FastAPI Core Engine"]
+      },
+      {
+        "phase": "WebGL Graph Engine",
+        "duration": "3 Weeks",
+        "deliverables": ["Three.js 3D Node Mesh", "WebSocket Telemetry Stream"]
+      },
+      {
+        "phase": "Production Launch",
+        "duration": "1 Week",
+        "deliverables": ["Vercel Edge Deploy", "CI/CD Pipeline"]
+      }
+    ],
+    "media": {
+      "screenshots": [
+        {
+          "url": "/images/novaagent-dashboard.png",
+          "caption": "NovaAgent AI Studio Main Drag-and-Drop Graph Dashboard",
+          "altText": "NovaAgent AI Studio Dashboard Screenshot"
+        },
+        {
+          "url": "/images/novaagent-rag.png",
+          "caption": "Vector Embedding RAG Pipeline Diagnostics View",
+          "altText": "Vector RAG Embedding Screenshot"
+        }
+      ],
+      "images": [
+        {
+          "url": "/images/novaagent-banner.jpg",
+          "type": "hero-banner",
+          "altText": "NovaAgent AI Studio Hero Banner"
+        }
+      ],
+      "videos": [
+        {
+          "url": "/videos/novaagent-demo.mp4",
+          "posterUrl": "/images/novaagent-poster.jpg",
+          "title": "Interactive Walkthrough of NovaAgent AI Multi-Agent Studio",
+          "durationSeconds": 95
+        }
+      ],
+      "voiceNarration": {
+        "url": "/audio/novaagent-narration.mp3",
+        "transcript": "Welcome to NovaAgent AI Studio. Designed by Gurkanwar Singh, this platform enables engineering teams to visually compose, simulate, and deploy autonomous LLM agent graphs with sub-120ms token streaming.",
+        "durationSeconds": 24,
+        "narrator": "JARVIS Voice Engine"
+      }
+    }
+  },
+  {
+    "id": "hyperpulse-db-telemetry",
+    "title": "PulseCloud Telemetry",
+    "subtitle": "Distributed Microservices & Database Monitoring SaaS",
+    "category": "Distributed Systems",
+    "featured": true,
+    "badgeColor": "border-indigo-500/40 text-indigo-400 bg-indigo-950/30",
+    "accentGradient": "from-indigo-500 to-violet-600",
+    "problem": "DevOps teams monitoring 10,000+ distributed microservice containers struggle with slow SQL queries, uncompressed log bloat, and static non-interactive topology maps.",
+    "solution": "PulseCloud Telemetry ingests 50,000 events/sec into ClickHouse columnar storage and renders real-time 3D WebGL node dependency graphs with sub-5ms query response.",
+    "architecture": {
+      "overview": "Columnar ingestion pipeline powered by Go workers, Kafka message broker, ClickHouse DB cluster, and Three.js node cluster visualizer.",
+      "systemFlow": [
+        "eBPF Kernel Probes",
+        "Kafka Event Stream",
+        "Go Aggregator Service",
+        "ClickHouse DB Cluster",
+        "R3F 3D Node Visualizer"
+      ],
+      "diagramUrl": "/images/pulsecloud-architecture.png",
+      "nodes": [
+        { "id": "node-1", "name": "eBPF Probes", "role": "Zero-code kernel telemetry gathering", "latency": "1.2ms" },
+        { "id": "node-2", "name": "Go Stream Aggregator", "role": "50k ops/sec log compaction", "latency": "3.5ms" },
+        { "id": "node-3", "name": "ClickHouse Cluster", "role": "Columnar storage compressed log store", "latency": "4.2ms" }
+      ]
+    },
+    "techStack": [
+      {
+        "name": "Go (Golang)",
+        "category": "backend",
+        "reasonForChoice": "Goroutine concurrency model handles 50,000 events/sec with minimal memory allocation.",
+        "version": "1.22"
+      },
+      {
+        "name": "ClickHouse DB",
+        "category": "database",
+        "reasonForChoice": "Achieves 8.4x log compression and sub-10ms analytical query speeds on billions of rows."
+      },
+      {
+        "name": "Three.js",
+        "category": "frontend",
+        "reasonForChoice": "Renders 10,000+ connected service nodes at 60 FPS using GPU instanced buffers."
+      }
+    ],
+    "demoUrl": "https://pulsecloud-telemetry.vercel.app",
+    "githubUrl": "https://github.com/gurkanwarsingh/pulsecloud-telemetry",
+    "challenges": [
+      {
+        "title": "WebGL Memory Leak on Large Graphs",
+        "detail": "Rendering 10,000 service nodes caused GPU memory leakage after prolonged sessions.",
+        "resolution": "Implemented a custom WebGL instance buffer manager reusing geometry pools."
+      }
+    ],
+    "futureScope": [
+      "Automated eBPF incident remediation auto-scaling rules."
+    ],
+    "lessonsLearned": [
+      "Columnar databases outperform traditional document stores by 10x for telemetry logs."
+    ],
+    "performanceMetrics": [
+      {
+        "metric": "Ingestion Throughput",
+        "value": "50k req/sec",
+        "benchmark": "Standard 10k req/sec",
+        "impact": "5x Ingestion Scale"
+      },
+      {
+        "metric": "P99 Query Latency",
+        "value": "4.2ms",
+        "benchmark": "PostgreSQL 120ms",
+        "impact": "Instant Telemetry Audits"
+      }
+    ],
+    "tags": ["Golang", "ClickHouse", "eBPF", "Three.js", "Kubernetes"],
+    "timeline": [
+      { "phase": "eBPF Core", "duration": "3 Weeks", "deliverables": ["Kernel Probe Ingestion"] },
+      { "phase": "ClickHouse Cluster", "duration": "2 Weeks", "deliverables": ["Columnar Storage Schema"] }
+    ],
+    "media": {
+      "screenshots": [
+        { "url": "/images/pulsecloud-dash.png", "caption": "PulseCloud 3D Node Cluster Telemetry Screen", "altText": "PulseCloud Telemetry Screenshot" }
+      ],
+      "images": [{ "url": "/images/pulsecloud-banner.jpg", "type": "banner", "altText": "PulseCloud Banner" }],
+      "videos": [{ "url": "/videos/pulsecloud-demo.mp4", "posterUrl": "/images/pulsecloud-poster.jpg", "title": "PulseCloud 50k req/sec Live Test", "durationSeconds": 70 }],
+      "voiceNarration": {
+        "url": "/audio/pulsecloud-narration.mp3",
+        "transcript": "PulseCloud Telemetry ingests 50,000 log events per second with sub-5ms query latency using ClickHouse and Go.",
+        "durationSeconds": 18,
+        "narrator": "JARVIS Voice Engine"
+      }
+    }
+  }
+]

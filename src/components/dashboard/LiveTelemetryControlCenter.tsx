@@ -86,13 +86,22 @@ export function LiveTelemetryControlCenter() {
 
             <button
               onClick={handleManualRefresh}
-              className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-cyan-300 transition-transform active:scale-95"
+              className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 text-cyan-300 transition-transform active:scale-95 flex items-center gap-1"
               title="Refresh Live Telemetry"
             >
               <RefreshCw className={`w-4 h-4 ${isRefetching ? "animate-spin text-cyan-400" : ""}`} />
+              <span className="text-[10px] hidden sm:inline">Auto-Refetch (30s)</span>
             </button>
           </div>
         </div>
+
+        {/* Offline / Cache Fallback Pill */}
+        {isLoading && (
+          <div className="p-2.5 rounded-xl bg-indigo-950/80 border border-indigo-500/40 text-indigo-300 text-xs font-mono flex items-center justify-between animate-pulse">
+            <span>Syncing live API telemetry feeds...</span>
+            <ShieldCheck className="w-4 h-4 text-indigo-400" />
+          </div>
+        )}
 
         {/* Live Spotify Now Playing Bar */}
         <div className="p-4 rounded-2xl glass-panel border border-emerald-500/40 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-lg shadow-emerald-950/30">

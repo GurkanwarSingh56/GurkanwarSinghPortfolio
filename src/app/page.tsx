@@ -3,6 +3,7 @@ import { OSBootSequence } from "@/components/boot/OSBootSequence";
 import { HeaderNavbar } from "@/components/navbar/HeaderNavbar";
 import { HeroSection } from "@/components/hero/HeroSection";
 import { JarvisMissionControl } from "@/components/jarvis/JarvisMissionControl";
+import { LiveTelemetryControlCenter } from "@/components/dashboard/LiveTelemetryControlCenter";
 import { TelemetryDashboard } from "@/components/telemetry/TelemetryDashboard";
 import { ProjectsSection } from "@/components/projects/ProjectsSection";
 import { InteractiveProjectStory } from "@/components/projects/InteractiveProjectStory";
@@ -36,6 +37,7 @@ export default function Home() {
         <HeaderNavbar />
         <HeroSection />
         <JarvisMissionControl />
+        <LiveTelemetryControlCenter />
         <TelemetryDashboard />
         <ProjectsSection />
         <InteractiveProjectStory />

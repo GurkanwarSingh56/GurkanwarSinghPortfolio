@@ -473,24 +473,24 @@ export function InteractiveProjectStory() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
-                <div className="p-4 rounded-2xl bg-zinc-950/60 border border-amber-500/30 space-y-2">
-                  <div className="text-amber-400 font-bold">Planned Roadmap Items</div>
-                  <ul className="space-y-2 text-zinc-300">
+                <div className="p-5 rounded-2xl bg-zinc-950/60 border border-amber-500/30 space-y-3 shadow-lg">
+                  <div className="text-amber-400 font-bold text-sm uppercase">Planned Technical Roadmap</div>
+                  <ul className="space-y-2.5 text-zinc-300">
                     {story.ch11_future.roadmapItems.map((item, idx) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <span className="text-amber-400">•</span>
+                        <Sparkles className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-zinc-950/60 border border-cyan-500/30 space-y-2">
-                  <div className="text-cyan-400 font-bold">Upcoming Technical Milestones</div>
-                  <ul className="space-y-2 text-zinc-300">
+                <div className="p-5 rounded-2xl bg-zinc-950/60 border border-cyan-500/30 space-y-3 shadow-lg">
+                  <div className="text-cyan-400 font-bold text-sm uppercase">Upcoming Production Milestones</div>
+                  <ul className="space-y-2.5 text-zinc-300">
                     {story.ch11_future.nextMilestones.map((m, idx) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <span className="text-cyan-400">•</span>
+                        <CheckCircle2 className="w-4 h-4 text-cyan-400 shrink-0 mt-0.5" />
                         <span>{m}</span>
                       </li>
                     ))}

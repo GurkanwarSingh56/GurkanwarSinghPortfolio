@@ -286,12 +286,34 @@ export function InteractiveProjectStory() {
                 </div>
               </div>
 
+              <div className="p-4 rounded-2xl bg-zinc-950/60 border border-white/10 text-xs font-mono text-zinc-300">
+                <strong className="text-cyan-400">Architecture Overview:</strong> {story.ch5_architecture.overview}
+              </div>
+
+              {/* Data Flow Pipeline Sequence */}
+              <div className="space-y-2">
+                <div className="text-xs font-mono text-indigo-400 uppercase tracking-wider">Sequential Data Flow Pipeline</div>
+                <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
+                  {story.ch5_architecture.dataFlowSteps.map((step, idx) => (
+                    <div key={idx} className="flex items-center gap-2">
+                      <span className="px-3 py-1.5 rounded-lg bg-zinc-900 border border-cyan-500/30 text-cyan-300 font-bold">
+                        {idx + 1}. {step}
+                      </span>
+                      {idx < story.ch5_architecture.dataFlowSteps.length - 1 && (
+                        <span className="text-zinc-500 font-bold">→</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Interactive Node Latency Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 font-mono text-xs">
                 {story.ch5_architecture.nodes.map((node) => (
-                  <div key={node.id} className="p-4 rounded-2xl bg-zinc-950/70 border border-cyan-500/30 space-y-1">
-                    <div className="font-bold text-white">{node.name}</div>
+                  <div key={node.id} className="p-4 rounded-2xl bg-zinc-950/70 border border-cyan-500/40 space-y-1 shadow-lg shadow-cyan-950/40 hover:scale-105 transition-transform">
+                    <div className="font-bold text-white text-sm">{node.name}</div>
                     <div className="text-zinc-400 text-[11px]">{node.role}</div>
-                    <div className="text-cyan-400 font-bold mt-2">Latency: {node.latency}</div>
+                    <div className="text-cyan-400 font-extrabold text-sm pt-2">Latency: {node.latency}</div>
                   </div>
                 ))}
               </div>

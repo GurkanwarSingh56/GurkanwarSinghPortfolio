@@ -5,6 +5,7 @@ import { HeroSection } from "@/components/hero/HeroSection";
 import { JarvisMissionControl } from "@/components/jarvis/JarvisMissionControl";
 import { TelemetryDashboard } from "@/components/telemetry/TelemetryDashboard";
 import { ProjectsSection } from "@/components/projects/ProjectsSection";
+import { InteractiveProjectStory } from "@/components/projects/InteractiveProjectStory";
 import { TechMatrixSection } from "@/components/tech/TechMatrixSection";
 import { ExperienceTimeline } from "@/components/experience/ExperienceTimeline";
 import { GuestbookSection } from "@/components/guestbook/GuestbookSection";
@@ -37,6 +38,7 @@ export default function Home() {
         <JarvisMissionControl />
         <TelemetryDashboard />
         <ProjectsSection />
+        <InteractiveProjectStory />
         <TechMatrixSection />
         <ExperienceTimeline />
         <GuestbookSection />

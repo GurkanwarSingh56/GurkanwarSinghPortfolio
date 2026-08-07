@@ -393,11 +393,23 @@ export function InteractiveProjectStory() {
 
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono text-xs">
                 {story.ch8_optimizations.optimizationsList.map((opt, idx) => (
-                  <div key={idx} className="p-4 rounded-2xl bg-zinc-950/60 border border-emerald-500/30 space-y-2">
-                    <div className="text-white font-bold">{opt.technique}</div>
-                    <div className="text-rose-400 text-[11px]">Before: {opt.beforeValue}</div>
-                    <div className="text-emerald-400 text-[11px]">After: {opt.afterValue}</div>
-                    <div className="text-cyan-300 font-bold text-sm pt-1">{opt.improvementPercentage}</div>
+                  <div key={idx} className="p-5 rounded-2xl bg-zinc-950/60 border border-emerald-500/30 space-y-3 shadow-lg">
+                    <div className="text-white font-bold text-sm">{opt.technique}</div>
+                    
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-[11px] text-rose-400">
+                        <span>Before:</span>
+                        <span>{opt.beforeValue}</span>
+                      </div>
+                      <div className="flex justify-between text-[11px] text-emerald-400 font-bold">
+                        <span>After:</span>
+                        <span>{opt.afterValue}</span>
+                      </div>
+                    </div>
+
+                    <div className="p-2 rounded bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 font-extrabold text-center text-xs">
+                      ⚡ {opt.improvementPercentage}
+                    </div>
                   </div>
                 ))}
               </div>

@@ -35,7 +35,7 @@ export interface LifeMilestone {
   year: string; // "2003" | "2022" | "2024" | "2025" | "2026" | "Future"
   title: string;
   subtitle: string;
-  tagline: string;
+  tagline?: string;
   iconName: string;
   accentColor: string;
   bgGradient: string;

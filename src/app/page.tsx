@@ -8,6 +8,7 @@ import { TelemetryDashboard } from "@/components/telemetry/TelemetryDashboard";
 import { ProjectsSection } from "@/components/projects/ProjectsSection";
 import { InteractiveProjectStory } from "@/components/projects/InteractiveProjectStory";
 import { TechMatrixSection } from "@/components/tech/TechMatrixSection";
+import { LifeTimeline } from "@/components/timeline/LifeTimeline";
 import { ExperienceTimeline } from "@/components/experience/ExperienceTimeline";
 import { GuestbookSection } from "@/components/guestbook/GuestbookSection";
 import { Footer } from "@/components/footer/Footer";
@@ -42,6 +43,7 @@ export default function Home() {
         <ProjectsSection />
         <InteractiveProjectStory />
         <TechMatrixSection />
+        <LifeTimeline />
         <ExperienceTimeline />
         <GuestbookSection />
         <Footer />

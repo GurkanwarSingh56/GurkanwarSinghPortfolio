@@ -16,7 +16,7 @@ export interface ContactEntry {
   message: string;
 }
 
-// Fallback seed entries when Firebase env keys are omitted
+// Fallback seed entries when offline
 const MOCK_GUESTBOOK_STORAGE: GuestbookEntry[] = [
   {
     id: "g-1",
@@ -44,15 +44,44 @@ const MOCK_GUESTBOOK_STORAGE: GuestbookEntry[] = [
   }
 ];
 
+// Firebase Web SDK Production Configuration for portfolio-1cd3a
+const FIREBASE_CONFIG = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY || "AIzaSyD3_nUGddgZhNTU9U_EME-Ep8v2q-EZ3OA",
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || "portfolio-1cd3a.firebaseapp.com",
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID || "portfolio-1cd3a",
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET || "portfolio-1cd3a.firebasestorage.app",
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID || "976948918473",
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID || "1:976948918473:web:b4c8da05cba1a60be23518",
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID || "G-2ZBCE5N78J"
+};
+
 export function isFirebaseConnected(): boolean {
-  return Boolean(process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID && process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
+  return true;
 }
 
 /**
- * Fetch guestbook messages from Cloud Firestore or fallback queue
+ * Initialize Firebase Analytics dynamically on client side
+ */
+export async function initFirebaseAnalytics(): Promise<unknown> {
+  if (typeof window === "undefined") return null;
+  try {
+    const { initializeApp, getApps, getApp } = await import("@firebase/app");
+    const { getAnalytics, isSupported } = await import("@firebase/analytics");
+    const app = getApps().length ? getApp() : initializeApp(FIREBASE_CONFIG);
+    if (await isSupported()) {
+      return getAnalytics(app);
+    }
+  } catch {
+    return null;
+  }
+  return null;
+}
+
+/**
+ * Fetch guestbook messages from Cloud Firestore
  */
 export async function fetchGuestbookEntries(): Promise<GuestbookEntry[]> {
-  if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
+  if (typeof window === "undefined") {
     return MOCK_GUESTBOOK_STORAGE;
   }
 
@@ -60,16 +89,7 @@ export async function fetchGuestbookEntries(): Promise<GuestbookEntry[]> {
     const { initializeApp, getApps, getApp } = await import("@firebase/app");
     const { getFirestore, collection, getDocs, query, orderBy, limit } = await import("@firebase/firestore");
 
-    const firebaseConfig = {
-      apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-      authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-      storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-      appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    };
-
-    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const app = getApps().length ? getApp() : initializeApp(FIREBASE_CONFIG);
     const database = getFirestore(app);
 
     const q = query(collection(database, "guestbook"), orderBy("createdAt", "desc"), limit(20));
@@ -98,7 +118,7 @@ export async function fetchGuestbookEntries(): Promise<GuestbookEntry[]> {
  * Subscribe to real-time Cloud Firestore guestbook updates
  */
 export function subscribeToGuestbook(callback: (entries: GuestbookEntry[]) => void): () => void {
-  if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
+  if (typeof window === "undefined") {
     callback(MOCK_GUESTBOOK_STORAGE);
     return () => {};
   }
@@ -114,16 +134,7 @@ export function subscribeToGuestbook(callback: (entries: GuestbookEntry[]) => vo
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { getFirestore, collection, query, orderBy, limit, onSnapshot } = firestoreMod as any;
 
-      const firebaseConfig = {
-        apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-        authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-        messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-        appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-      };
-
-      const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+      const app = getApps().length ? getApp() : initializeApp(FIREBASE_CONFIG);
       const database = getFirestore(app);
 
       const q = query(collection(database, "guestbook"), orderBy("createdAt", "desc"), limit(20));
@@ -165,7 +176,7 @@ export async function submitGuestbookEntry(entry: { name: string; role: string; 
     timestamp: "Just now"
   };
 
-  if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
+  if (typeof window === "undefined") {
     MOCK_GUESTBOOK_STORAGE.unshift(newEntry);
     return newEntry;
   }
@@ -174,16 +185,7 @@ export async function submitGuestbookEntry(entry: { name: string; role: string; 
     const { initializeApp, getApps, getApp } = await import("@firebase/app");
     const { getFirestore, collection, addDoc, Timestamp } = await import("@firebase/firestore");
 
-    const firebaseConfig = {
-      apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-      authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-      storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-      appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    };
-
-    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const app = getApps().length ? getApp() : initializeApp(FIREBASE_CONFIG);
     const database = getFirestore(app);
 
     const docRef = await addDoc(collection(database, "guestbook"), {
@@ -201,8 +203,8 @@ export async function submitGuestbookEntry(entry: { name: string; role: string; 
  * Submit contact inquiry to Cloud Firestore Database
  */
 export async function submitContactMessage(contact: ContactEntry): Promise<boolean> {
-  if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
-    console.log("[Contact In-Memory Mock Log]:", contact);
+  if (typeof window === "undefined") {
+    console.log("[Contact In-Memory Log]:", contact);
     return true;
   }
 
@@ -210,16 +212,7 @@ export async function submitContactMessage(contact: ContactEntry): Promise<boole
     const { initializeApp, getApps, getApp } = await import("@firebase/app");
     const { getFirestore, collection, addDoc, Timestamp } = await import("@firebase/firestore");
 
-    const firebaseConfig = {
-      apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-      authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-      storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-      messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-      appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    };
-
-    const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+    const app = getApps().length ? getApp() : initializeApp(FIREBASE_CONFIG);
     const database = getFirestore(app);
 
     await addDoc(collection(database, "contacts"), {

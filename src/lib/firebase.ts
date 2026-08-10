@@ -9,7 +9,14 @@ export interface GuestbookEntry {
   timestamp: string;
 }
 
-// Fallback seed entries when Firebase env is not configured
+export interface ContactEntry {
+  name: string;
+  email: string;
+  company: string;
+  message: string;
+}
+
+// Fallback seed entries when Firebase env keys are omitted
 const MOCK_GUESTBOOK_STORAGE: GuestbookEntry[] = [
   {
     id: "g-1",
@@ -37,6 +44,13 @@ const MOCK_GUESTBOOK_STORAGE: GuestbookEntry[] = [
   }
 ];
 
+export function isFirebaseConnected(): boolean {
+  return Boolean(process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID && process.env.NEXT_PUBLIC_FIREBASE_API_KEY);
+}
+
+/**
+ * Fetch guestbook messages from Cloud Firestore or fallback queue
+ */
 export async function fetchGuestbookEntries(): Promise<GuestbookEntry[]> {
   if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
     return MOCK_GUESTBOOK_STORAGE;
@@ -59,7 +73,9 @@ export async function fetchGuestbookEntries(): Promise<GuestbookEntry[]> {
     const database = getFirestore(app);
 
     const q = query(collection(database, "guestbook"), orderBy("createdAt", "desc"), limit(20));
-    const querySnapshot = await getDocs(q);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const querySnapshot = await getDocs(q as any);
     const entries: GuestbookEntry[] = [];
     querySnapshot.forEach((docSnap: { id: string; data: () => Record<string, unknown> }) => {
       const data = docSnap.data();
@@ -78,6 +94,67 @@ export async function fetchGuestbookEntries(): Promise<GuestbookEntry[]> {
   }
 }
 
+/**
+ * Subscribe to real-time Cloud Firestore guestbook updates
+ */
+export function subscribeToGuestbook(callback: (entries: GuestbookEntry[]) => void): () => void {
+  if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
+    callback(MOCK_GUESTBOOK_STORAGE);
+    return () => {};
+  }
+
+  let unsubscribe = () => {};
+
+  Promise.all([
+    import("@firebase/app"),
+    import("@firebase/firestore")
+  ]).then(([appMod, firestoreMod]) => {
+    try {
+      const { initializeApp, getApps, getApp } = appMod;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { getFirestore, collection, query, orderBy, limit, onSnapshot } = firestoreMod as any;
+
+      const firebaseConfig = {
+        apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+        authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+        projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+        storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+        appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+      };
+
+      const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
+      const database = getFirestore(app);
+
+      const q = query(collection(database, "guestbook"), orderBy("createdAt", "desc"), limit(20));
+      unsubscribe = onSnapshot(q, (snapshot: { docs: Array<{ id: string; data: () => Record<string, unknown> }> }) => {
+        const entries: GuestbookEntry[] = [];
+        snapshot.docs.forEach((docSnap) => {
+          const data = docSnap.data();
+          entries.push({
+            id: docSnap.id,
+            name: (data.name as string) || "Anonymous Developer",
+            role: (data.role as string) || "Visitor",
+            message: (data.message as string) || "",
+            reaction: (data.reaction as string) || "⚡",
+            timestamp: "Just now"
+          });
+        });
+        callback(entries.length > 0 ? entries : MOCK_GUESTBOOK_STORAGE);
+      });
+    } catch {
+      callback(MOCK_GUESTBOOK_STORAGE);
+    }
+  }).catch(() => {
+    callback(MOCK_GUESTBOOK_STORAGE);
+  });
+
+  return () => unsubscribe();
+}
+
+/**
+ * Submit guestbook entry to Cloud Firestore Database
+ */
 export async function submitGuestbookEntry(entry: { name: string; role: string; message: string; reaction: string }): Promise<GuestbookEntry> {
   const newEntry: GuestbookEntry = {
     id: `guest-${Date.now()}`,
@@ -120,9 +197,12 @@ export async function submitGuestbookEntry(entry: { name: string; role: string; 
   }
 }
 
-export async function submitContactMessage(contact: { name: string; email: string; company: string; message: string }): Promise<boolean> {
+/**
+ * Submit contact inquiry to Cloud Firestore Database
+ */
+export async function submitContactMessage(contact: ContactEntry): Promise<boolean> {
   if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
-    console.log("[Contact Subscribed Mock]:", contact);
+    console.log("[Contact In-Memory Mock Log]:", contact);
     return true;
   }
 

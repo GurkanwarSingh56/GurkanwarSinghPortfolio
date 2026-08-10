@@ -1,213 +1,199 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { fetchGuestbookEntries, submitGuestbookEntry, GuestbookEntry } from "@/lib/firebase";
-import { useAppStore } from "@/store/useAppStore";
+import { GuestbookEntry, submitGuestbookEntry, subscribeToGuestbook, isFirebaseConnected } from "@/lib/firebase";
 import { playClickSound, playSuccessSound } from "@/lib/audio";
+import { useAppStore } from "@/store/useAppStore";
 import confetti from "canvas-confetti";
-import { MessageSquare, Send, Sparkles, User, ThumbsUp, Loader2 } from "lucide-react";
+import { MessageSquare, Send, Sparkles, User, ShieldCheck, Flame, Radio } from "lucide-react";
 
-const REACTIONS = ["🚀", "🔥", "⚡", "💎", "🧠"];
+const REACTION_BADGES = ["🚀", "🔥", "⚡", "💎", "🧠"];
 
 export function GuestbookSection() {
   const { soundEnabled } = useAppStore();
   const [entries, setEntries] = useState<GuestbookEntry[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [submitting, setSubmitting] = useState<boolean>(false);
-
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
   const [message, setMessage] = useState("");
   const [reaction, setReaction] = useState("🚀");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [firebaseActive, setFirebaseActive] = useState(false);
 
   useEffect(() => {
-    fetchGuestbookEntries().then((res) => {
-      setEntries(res);
-      setLoading(false);
+    setFirebaseActive(isFirebaseConnected());
+    const unsubscribe = subscribeToGuestbook((liveEntries) => {
+      setEntries(liveEntries);
     });
+    return () => unsubscribe();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!message.trim() || submitting) return;
+    if (!message.trim() || isSubmitting) return;
 
     playClickSound(soundEnabled);
-    setSubmitting(true);
+    setIsSubmitting(true);
 
     try {
-      const newEntry = await submitGuestbookEntry({
-        name: name.trim() || "Anonymous Engineer",
-        role: role.trim() || "Software Developer",
-        message: message.trim(),
-        reaction
-      });
-
+      const created = await submitGuestbookEntry({ name, role, message, reaction });
       playSuccessSound(soundEnabled);
       confetti({ particleCount: 80, spread: 60, origin: { y: 0.7 } });
-      setEntries((prev) => [newEntry, ...prev]);
 
-      setName("");
-      setRole("");
+      setEntries((prev) => [created, ...prev.filter((e) => e.id !== created.id)]);
       setMessage("");
-    } catch {
-      // Silent catch
     } finally {
-      setSubmitting(false);
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <section id="guestbook" className="py-16 md:py-24 relative">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="guestbook" className="py-20 md:py-28 relative overflow-hidden bg-zinc-950/90">
+      
+      {/* Ambient Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-indigo-600/10 via-cyan-500/10 to-violet-600/5 blur-[150px] pointer-events-none rounded-full" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
         
-        {/* Header Title */}
-        <div className="text-center max-w-3xl mx-auto space-y-4 mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-300 text-xs font-mono">
-            <MessageSquare className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Firebase Firestore Realtime Sync</span>
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-white/10 pb-6">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-mono text-cyan-400 uppercase tracking-widest mb-1.5">
+              <Radio className="w-4 h-4 text-cyan-400 animate-pulse" />
+              <span>REAL-TIME FIREBASE GUESTBOOK STREAM</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+              Public Visitor <span className="text-gradient-cyan">Guestbook</span>
+            </h2>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-            Developer <span className="text-gradient-cyan">Guestbook</span> &amp; Feedback
-          </h2>
-          <p className="text-sm sm:text-base text-zinc-400 leading-relaxed font-normal">
-            Leave a message, feedback on the 3D architecture visualizer, or technical reaction. Synced live across visitors.
-          </p>
+
+          <div className="flex items-center gap-2 font-mono text-xs">
+            <span className={`px-3 py-1.5 rounded-xl border flex items-center gap-1.5 ${
+              firebaseActive
+                ? "bg-emerald-950/80 border-emerald-500/40 text-emerald-400"
+                : "bg-indigo-950/80 border-indigo-500/40 text-indigo-300"
+            }`}>
+              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+              <span>{firebaseActive ? "Firebase Firestore Live Connected" : "DevOS Synchronized Database"}</span>
+            </span>
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           
-          {/* Left Column: Form */}
-          <div className="lg:col-span-5 p-6 rounded-2xl glass-panel border border-white/10 space-y-6">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-cyan-400" />
-              <span>Sign the Guestbook</span>
-            </h3>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label className="block text-xs font-mono text-zinc-400 mb-1">Your Name</label>
-                <input
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="e.g. Sarah Connor"
-                  className="w-full px-3.5 py-2.5 bg-zinc-950 border border-white/10 rounded-xl text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
+          {/* Left Form (5 Cols) */}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="p-6 rounded-2xl glass-panel border border-white/10 space-y-4">
+              <div className="flex items-center gap-2 text-sm font-mono text-cyan-400 font-bold border-b border-white/10 pb-3">
+                <MessageSquare className="w-4 h-4" />
+                <span>Leave a Visitor Signature</span>
               </div>
 
-              <div>
-                <label className="block text-xs font-mono text-zinc-400 mb-1">Your Role / Company</label>
-                <input
-                  type="text"
-                  value={role}
-                  onChange={(e) => setRole(e.target.value)}
-                  placeholder="e.g. Lead Architect @ Vercel"
-                  className="w-full px-3.5 py-2.5 bg-zinc-950 border border-white/10 rounded-xl text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-mono text-zinc-400 mb-1">Message / Reaction *</label>
-                <textarea
-                  required
-                  rows={3}
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Share your thoughts on the DevOS portfolio aesthetic..."
-                  className="w-full px-3.5 py-2.5 bg-zinc-950 border border-white/10 rounded-xl text-xs text-zinc-100 placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-              </div>
-
-              {/* Reaction Pickers */}
-              <div>
-                <label className="block text-xs font-mono text-zinc-400 mb-1.5">Choose Reaction Badge</label>
-                <div className="flex items-center gap-2">
-                  {REACTIONS.map((r) => (
-                    <button
-                      type="button"
-                      key={r}
-                      onClick={() => {
-                        playClickSound(soundEnabled);
-                        setReaction(r);
-                      }}
-                      className={`px-3 py-1.5 rounded-xl text-sm transition-all ${
-                        reaction === r
-                          ? "bg-indigo-600 text-white scale-110 border border-indigo-400 shadow-md"
-                          : "bg-zinc-900 text-zinc-400 border border-white/5 hover:bg-zinc-800"
-                      }`}
-                    >
-                      {r}
-                    </button>
-                  ))}
+              <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
+                <div>
+                  <label className="block text-zinc-400 mb-1">Your Name</label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="e.g. Alex Rivera"
+                    className="w-full px-3.5 py-2.5 bg-zinc-950 border border-white/10 rounded-xl text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  />
                 </div>
-              </div>
 
-              <button
-                type="submit"
-                disabled={submitting || !message.trim()}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 text-white font-semibold text-xs transition-all shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                {submitting ? (
-                  <Loader2 className="w-4 h-4 animate-spin text-white" />
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>Publish Guestbook Message</span>
-                  </>
-                )}
-              </button>
+                <div>
+                  <label className="block text-zinc-400 mb-1">Your Role / Company</label>
+                  <input
+                    type="text"
+                    value={role}
+                    onChange={(e) => setRole(e.target.value)}
+                    placeholder="e.g. Staff Engineer @ Vercel"
+                    className="w-full px-3.5 py-2.5 bg-zinc-950 border border-white/10 rounded-xl text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                  />
+                </div>
 
-            </form>
+                <div>
+                  <label className="block text-zinc-400 mb-1">Select Reaction Badge</label>
+                  <div className="flex gap-2">
+                    {REACTION_BADGES.map((badge) => (
+                      <button
+                        type="button"
+                        key={badge}
+                        onClick={() => setReaction(badge)}
+                        className={`p-2 rounded-xl text-base border transition-transform ${
+                          reaction === badge
+                            ? "bg-cyan-950 border-cyan-400 scale-110 shadow-md shadow-cyan-500/30"
+                            : "bg-zinc-950 border-white/5 opacity-60 hover:opacity-100"
+                        }`}
+                      >
+                        {badge}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-zinc-400 mb-1">Message / Architecture Feedback</label>
+                  <textarea
+                    required
+                    rows={3}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Share feedback on the 3D canvas, JARVIS control plane, or code..."
+                    className="w-full px-3.5 py-2.5 bg-zinc-950 border border-white/10 rounded-xl text-white placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 font-sans text-xs"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isSubmitting || !message.trim()}
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 via-indigo-600 to-violet-600 hover:from-cyan-400 hover:to-violet-500 text-white font-bold transition-transform active:scale-98 shadow-lg shadow-cyan-500/30 flex items-center justify-center gap-2"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>{isSubmitting ? "Transmitting..." : "Sign Guestbook Stream"}</span>
+                </button>
+              </form>
+            </div>
           </div>
 
-          {/* Right Column: Live Guestbook Stream */}
-          <div className="lg:col-span-7 space-y-4 max-h-[520px] overflow-y-auto pr-2">
-            <h3 className="text-lg font-bold text-white flex items-center justify-between">
-              <span className="flex items-center gap-2">
-                <ThumbsUp className="w-4 h-4 text-emerald-400" />
-                <span>Live Feedback Stream ({entries.length})</span>
-              </span>
-              <span className="text-xs font-mono text-zinc-500">Firebase Firestore</span>
-            </h3>
+          {/* Right Live Stream Feed (7 Cols) */}
+          <div className="lg:col-span-7 space-y-4">
+            <div className="p-6 rounded-2xl glass-panel border border-white/10 space-y-4">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3">
+                <div className="flex items-center gap-2 text-sm font-mono text-zinc-200 font-bold">
+                  <Flame className="w-4 h-4 text-amber-400" />
+                  <span>Live Feedback Stream ({entries.length})</span>
+                </div>
+                <span className="text-[10px] font-mono text-emerald-400 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                  Sync Active
+                </span>
+              </div>
 
-            {loading ? (
-              <div className="p-8 text-center text-zinc-500 font-mono text-xs flex items-center justify-center gap-2">
-                <Loader2 className="w-4 h-4 animate-spin text-cyan-400" />
-                <span>Fetching real-time messages...</span>
-              </div>
-            ) : entries.length === 0 ? (
-              <div className="p-8 rounded-2xl glass-panel text-center text-zinc-500 font-mono text-xs">
-                No messages yet. Be the first to sign the guestbook!
-              </div>
-            ) : (
-              entries.map((entry) => (
-                <div
-                  key={entry.id}
-                  className="p-5 rounded-2xl glass-panel glass-panel-hover border border-white/10 space-y-3"
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-indigo-950 border border-indigo-500/30 flex items-center justify-center text-cyan-300 font-mono text-xs font-bold shrink-0">
-                        {entry.name.slice(0, 2).toUpperCase()}
-                      </div>
-                      <div>
-                        <div className="font-bold text-sm text-zinc-100 flex items-center gap-2">
-                          <span>{entry.name}</span>
-                          <span className="text-base">{entry.reaction}</span>
+              <div className="space-y-3 font-mono text-xs max-h-[420px] overflow-y-auto pr-1">
+                {entries.map((entry) => (
+                  <div key={entry.id} className="p-4 rounded-xl bg-zinc-950/70 border border-white/5 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-7 h-7 rounded-lg bg-zinc-900 border border-white/10 flex items-center justify-center text-cyan-400 font-bold text-xs">
+                          <User className="w-3.5 h-3.5" />
                         </div>
-                        <div className="text-xs font-mono text-indigo-400">{entry.role}</div>
+                        <div>
+                          <div className="font-bold text-zinc-100">{entry.name}</div>
+                          <div className="text-[10px] text-zinc-500">{entry.role}</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-base">{entry.reaction}</span>
+                        <span className="text-[10px] text-zinc-500">{entry.timestamp}</span>
                       </div>
                     </div>
-
-                    <span className="text-[10px] font-mono text-zinc-500 shrink-0">{entry.timestamp}</span>
+                    <p className="text-zinc-300 font-sans text-xs leading-relaxed pt-1">
+                      &quot;{entry.message}&quot;
+                    </p>
                   </div>
-
-                  <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal pl-11">
-                    {entry.message}
-                  </p>
-                </div>
-              ))
-            )}
+                ))}
+              </div>
+            </div>
           </div>
 
         </div>

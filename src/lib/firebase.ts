@@ -16,7 +16,7 @@ export interface ContactEntry {
   message: string;
 }
 
-// Fallback seed entries when offline or env is omitted
+// Fallback seed entries when offline or env is omitted or permission denied
 const MOCK_GUESTBOOK_STORAGE: GuestbookEntry[] = [
   {
     id: "g-1",
@@ -120,7 +120,7 @@ export async function fetchGuestbookEntries(): Promise<GuestbookEntry[]> {
 }
 
 /**
- * Subscribe to real-time Cloud Firestore guestbook updates
+ * Subscribe to real-time Cloud Firestore guestbook updates with graceful permission-denied error handling
  */
 export function subscribeToGuestbook(callback: (entries: GuestbookEntry[]) => void): () => void {
   if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
@@ -144,21 +144,29 @@ export function subscribeToGuestbook(callback: (entries: GuestbookEntry[]) => vo
       const database = getFirestore(app);
 
       const q = query(collection(database, "guestbook"), orderBy("createdAt", "desc"), limit(20));
-      unsubscribe = onSnapshot(q, (snapshot: { docs: Array<{ id: string; data: () => Record<string, unknown> }> }) => {
-        const entries: GuestbookEntry[] = [];
-        snapshot.docs.forEach((docSnap) => {
-          const data = docSnap.data();
-          entries.push({
-            id: docSnap.id,
-            name: (data.name as string) || "Anonymous Developer",
-            role: (data.role as string) || "Visitor",
-            message: (data.message as string) || "",
-            reaction: (data.reaction as string) || "⚡",
-            timestamp: "Just now"
+      
+      unsubscribe = onSnapshot(
+        q,
+        (snapshot: { docs: Array<{ id: string; data: () => Record<string, unknown> }> }) => {
+          const entries: GuestbookEntry[] = [];
+          snapshot.docs.forEach((docSnap) => {
+            const data = docSnap.data();
+            entries.push({
+              id: docSnap.id,
+              name: (data.name as string) || "Anonymous Developer",
+              role: (data.role as string) || "Visitor",
+              message: (data.message as string) || "",
+              reaction: (data.reaction as string) || "⚡",
+              timestamp: "Just now"
+            });
           });
-        });
-        callback(entries.length > 0 ? entries : MOCK_GUESTBOOK_STORAGE);
-      });
+          callback(entries.length > 0 ? entries : MOCK_GUESTBOOK_STORAGE);
+        },
+        // Graceful error listener catching permission-denied without console error spam
+        (_error: unknown) => {
+          callback(MOCK_GUESTBOOK_STORAGE);
+        }
+      );
     } catch {
       callback(MOCK_GUESTBOOK_STORAGE);
     }

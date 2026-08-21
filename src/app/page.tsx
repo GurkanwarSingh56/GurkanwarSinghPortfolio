@@ -7,7 +7,7 @@ import { LiveTelemetryControlCenter } from "@/components/dashboard/LiveTelemetry
 import { TelemetryDashboard } from "@/components/telemetry/TelemetryDashboard";
 import { ProjectsSection } from "@/components/projects/ProjectsSection";
 import { InteractiveProjectStory } from "@/components/projects/InteractiveProjectStory";
-import { TechMatrixSection } from "@/components/tech/TechMatrixSection";
+import { PremiumSkillVisualizer } from "@/components/tech/PremiumSkillVisualizer";
 import { LifeTimeline } from "@/components/timeline/LifeTimeline";
 import { ExperienceTimeline } from "@/components/experience/ExperienceTimeline";
 import { GuestbookSection } from "@/components/guestbook/GuestbookSection";
@@ -42,7 +42,7 @@ export default function Home() {
         <TelemetryDashboard />
         <ProjectsSection />
         <InteractiveProjectStory />
-        <TechMatrixSection />
+        <PremiumSkillVisualizer />
         <LifeTimeline />
         <ExperienceTimeline />
         <GuestbookSection />

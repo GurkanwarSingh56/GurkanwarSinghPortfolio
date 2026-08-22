@@ -215,28 +215,25 @@ export async function submitGuestbookEntry(entry: { name: string; role: string; 
 }
 
 /**
- * Submit contact inquiry to Cloud Firestore Database
+ * Submit contact inquiry via secure Server API
  */
-export async function submitContactMessage(contact: ContactEntry): Promise<boolean> {
-  if (typeof window === "undefined" || !process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID) {
-    console.log("[Contact In-Memory Log]:", contact);
-    return true;
-  }
-
+export async function submitContactMessage(contact: ContactEntry & { honeypot?: string }): Promise<boolean> {
   try {
-    const { initializeApp, getApps, getApp } = await import("@firebase/app");
-    const { getFirestore, collection, addDoc, Timestamp } = await import("@firebase/firestore");
-
-    const config = getFirebaseConfig();
-    const app = getApps().length ? getApp() : initializeApp(config);
-    const database = getFirestore(app);
-
-    await addDoc(collection(database, "contacts"), {
-      ...contact,
-      createdAt: Timestamp.now()
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(contact),
     });
+    
+    if (!res.ok) {
+      console.error('Failed to submit contact via API');
+      return false;
+    }
+    
     return true;
-  } catch {
-    return true;
+  } catch (error) {
+    console.error('Submission error:', error);
+    return false;
   }
 }
+

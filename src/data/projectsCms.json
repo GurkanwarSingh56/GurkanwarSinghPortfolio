@@ -1,1 +1,281 @@
-[]
+[
+  {
+    "id": "college-erp",
+    "title": "College ERP",
+    "subtitle": "Modern College Management System",
+    "category": "Distributed Systems",
+    "featured": true,
+    "badgeColor": "border-indigo-500/40 text-indigo-400 bg-indigo-950/30",
+    "accentGradient": "from-indigo-500 to-violet-600",
+    "problem": "Decentralized academic and administrative operations handling sensitive student and financial data lack strict role-based access control, scalability, and centralized security.",
+    "solution": "A modern, secure, and scalable College ERP built with Next.js and Supabase for managing students, faculty, attendance, fees, academic marks, and institutional administration through strict RBAC.",
+    "architecture": {
+      "overview": "Modular Next.js architecture leveraging Server Components and Actions, backed by Supabase Auth and PostgreSQL Row Level Security (RLS) to enforce data privacy and access control.",
+      "systemFlow": [
+        "User Interface",
+        "Next.js Server Actions",
+        "Authorization Middleware",
+        "Supabase Auth",
+        "PostgreSQL RLS Database"
+      ],
+      "diagramUrl": "",
+      "nodes": [
+        {
+          "id": "node-1",
+          "name": "Next.js App Router",
+          "role": "Server Components & Routing",
+          "latency": "Fast"
+        },
+        {
+          "id": "node-2",
+          "name": "Supabase Auth",
+          "role": "Authentication & Session Management",
+          "latency": "Low"
+        },
+        {
+          "id": "node-3",
+          "name": "PostgreSQL DB",
+          "role": "Relational Data Storage & RLS",
+          "latency": "Sub-10ms"
+        }
+      ]
+    },
+    "techStack": [
+      {
+        "name": "Next.js",
+        "category": "frontend",
+        "reasonForChoice": "Server Components and Server Actions provide an excellent backend layer while preserving a snappy client experience."
+      },
+      {
+        "name": "Supabase & PostgreSQL",
+        "category": "database",
+        "reasonForChoice": "PostgreSQL offers strong relational modeling for complex ERP relationships, while Supabase provides Auth and RLS."
+      },
+      {
+        "name": "TypeScript",
+        "category": "frontend",
+        "reasonForChoice": "Ensures type safety across the full stack."
+      }
+    ],
+    "demoUrl": "",
+    "githubUrl": "",
+    "challenges": [
+      {
+        "title": "Data Privacy and Role Based Access",
+        "detail": "Students, teachers, and admins require strictly segregated access to attendance and marks data.",
+        "resolution": "Implemented comprehensive Role-Based Access Control (RBAC) combined with PostgreSQL Row Level Security (RLS)."
+      }
+    ],
+    "futureScope": [
+      "Library, Hostel, and Transport Management modules.",
+      "Multi-College SaaS Management for handling tenant scaling."
+    ],
+    "lessonsLearned": [
+      "Server-side authorization is non-negotiable for security.",
+      "Database schema relationships must be designed thoroughly before building complex UI forms."
+    ],
+    "performanceMetrics": [
+      {
+        "metric": "Security Model",
+        "value": "RLS Enabled",
+        "benchmark": "Standard REST API",
+        "impact": "Data is protected at the database level."
+      }
+    ],
+    "tags": [
+      "Next.js",
+      "Supabase",
+      "PostgreSQL",
+      "ERP",
+      "TypeScript"
+    ],
+    "timeline": [],
+    "media": {
+      "screenshots": [],
+      "images": [],
+      "videos": [],
+      "voiceNarration": {
+        "url": "",
+        "transcript": "College ERP is a secure platform built with Next.js and Supabase for managing academic and administrative operations.",
+        "durationSeconds": 10,
+        "narrator": "AI"
+      }
+    }
+  },
+  {
+    "id": "travelflow",
+    "title": "TravelFlow",
+    "subtitle": "Complete Travel Booking Application",
+    "category": "Fullstack SaaS",
+    "featured": true,
+    "badgeColor": "border-emerald-500/40 text-emerald-400 bg-emerald-950/30",
+    "accentGradient": "from-emerald-500 to-teal-600",
+    "problem": "Fragmented travel booking experiences requiring multiple distinct platforms for flights, hotels, trains, and insurance.",
+    "solution": "A unified, full-stack travel booking platform with intelligent round-trip combinations, multi-city hotel search, and comprehensive train and insurance booking systems.",
+    "architecture": {
+      "overview": "React 19 single-page application utilizing Vite, consuming RESTful APIs powered by an Express.js backend connected to MongoDB.",
+      "systemFlow": [
+        "React SPA",
+        "API Service Layer",
+        "Express.js Server",
+        "MongoDB Atlas"
+      ],
+      "diagramUrl": "",
+      "nodes": [
+        {
+          "id": "node-1",
+          "name": "React 19 + Vite",
+          "role": "Frontend Client Interface",
+          "latency": "Instant"
+        },
+        {
+          "id": "node-2",
+          "name": "Express.js API",
+          "role": "Backend Business Logic",
+          "latency": "Low"
+        },
+        {
+          "id": "node-3",
+          "name": "MongoDB Atlas",
+          "role": "Document Database",
+          "latency": "Fast"
+        }
+      ]
+    },
+    "techStack": [
+      {
+        "name": "React 19",
+        "category": "frontend",
+        "reasonForChoice": "Modern declarative UI component library."
+      },
+      {
+        "name": "Express.js",
+        "category": "backend",
+        "reasonForChoice": "Lightweight API framework for routing requests."
+      },
+      {
+        "name": "MongoDB",
+        "category": "database",
+        "reasonForChoice": "Flexible NoSQL schema for handling complex and varied booking structures."
+      }
+    ],
+    "demoUrl": "https://travelflow-psi.vercel.app/",
+    "githubUrl": "https://github.com/GurkanwarSingh56/final_project_training",
+    "challenges": [
+      {
+        "title": "Smart Round-Trip Combinations",
+        "detail": "Calculating the best outbound and return flight combinations across varying airlines and times dynamically.",
+        "resolution": "Engineered a combination algorithm that analyzes outbound/return arrays to calculate optimal price and total duration metrics."
+      }
+    ],
+    "futureScope": [
+      "Razorpay integration for online payment checkout.",
+      "Real-time flight status tracking APIs."
+    ],
+    "lessonsLearned": [
+      "Structuring complex nested API data correctly simplifies frontend state management."
+    ],
+    "performanceMetrics": [],
+    "tags": [
+      "React 19",
+      "Express.js",
+      "MongoDB",
+      "Travel",
+      "Vite"
+    ],
+    "timeline": [],
+    "media": {
+      "screenshots": [],
+      "images": [],
+      "videos": [],
+      "voiceNarration": {
+        "url": "",
+        "transcript": "TravelFlow is a unified, full-stack travel booking platform built with React, Express, and MongoDB.",
+        "durationSeconds": 10,
+        "narrator": "AI"
+      }
+    }
+  },
+  {
+    "id": "technovate-website",
+    "title": "Technovate Website",
+    "subtitle": "Technical Innovation Club Platform",
+    "category": "Fullstack SaaS",
+    "featured": true,
+    "badgeColor": "border-cyan-500/40 text-cyan-400 bg-cyan-950/30",
+    "accentGradient": "from-cyan-500 to-indigo-600",
+    "problem": "Club activities, event registrations, and announcements are often scattered across forms, social media, and disparate communication channels.",
+    "solution": "A centralized, modern web platform for showcasing the club's activities, managing events and teams, and providing an authenticated student dashboard.",
+    "architecture": {
+      "overview": "Modular Next.js 14 App Router application structuring public pages, authenticated areas, member dashboards, and secure admin routes.",
+      "systemFlow": [
+        "Public Website",
+        "Authentication Middleware",
+        "Next.js API Routes",
+        "Database Layer"
+      ],
+      "diagramUrl": "",
+      "nodes": [
+        {
+          "id": "node-1",
+          "name": "Next.js App Router",
+          "role": "Routing & Server Rendering",
+          "latency": "Fast"
+        },
+        {
+          "id": "node-2",
+          "name": "Authentication System",
+          "role": "Access Control",
+          "latency": "Low"
+        }
+      ]
+    },
+    "techStack": [
+      {
+        "name": "Next.js 14",
+        "category": "frontend",
+        "reasonForChoice": "Optimal performance with App Router and server components."
+      },
+      {
+        "name": "Tailwind CSS",
+        "category": "frontend",
+        "reasonForChoice": "Utility-first styling for creating responsive and modern interfaces."
+      }
+    ],
+    "demoUrl": "https://techonovate.vercel.app/",
+    "githubUrl": "https://github.com/GurkanwarSingh56/Orientation",
+    "challenges": [
+      {
+        "title": "Fragmented Club Data",
+        "detail": "Data related to members, events, and projects was previously tracked in spreadsheets.",
+        "resolution": "Designed a cohesive schema for managing entities in a dedicated database."
+      }
+    ],
+    "futureScope": [
+      "Event registration system with ticket generation.",
+      "Blog system with CMS capabilities."
+    ],
+    "lessonsLearned": [
+      "Modular route grouping in Next.js (e.g. (auth), (dashboard)) significantly enhances project organization."
+    ],
+    "performanceMetrics": [],
+    "tags": [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Club Platform"
+    ],
+    "timeline": [],
+    "media": {
+      "screenshots": [],
+      "images": [],
+      "videos": [],
+      "voiceNarration": {
+        "url": "",
+        "transcript": "Technovate is a centralized platform for the Technical Innovation Club, built with Next.js 14.",
+        "durationSeconds": 10,
+        "narrator": "AI"
+      }
+    }
+  }
+]

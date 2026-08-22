@@ -37,7 +37,7 @@ export async function fetchGitHubTelemetry(username: string = "gurkanwarsingh"):
 
     return {
       username,
-      publicRepos: userData.public_repos || TELEMETRY_INITIAL.github.publicRepos,
+      publicRepos: Number(userData.public_repos) || TELEMETRY_INITIAL.github.publicRepos,
       totalStars,
       contributionsThisYear: TELEMETRY_INITIAL.github.contributionsThisYear,
       currentStreakDays: TELEMETRY_INITIAL.github.currentStreakDays,

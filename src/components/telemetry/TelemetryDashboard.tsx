@@ -69,7 +69,7 @@ export function TelemetryDashboard() {
                 </div>
                 <div>
                   <h3 className="font-bold text-base text-zinc-100">GitHub Telemetry</h3>
-                  <p className="text-xs font-mono text-zinc-400">@{githubData.username}</p>
+                  <p className="text-xs font-mono text-zinc-400">@{githubData?.username}</p>
                 </div>
               </div>
               <span className="text-xs font-mono text-cyan-400 px-2.5 py-1 rounded-md bg-cyan-950/40 border border-cyan-500/30">
@@ -85,7 +85,7 @@ export function TelemetryDashboard() {
                   <span>Repos</span>
                 </div>
                 <div className="text-2xl font-bold font-mono text-white mt-1">
-                  {githubLoading ? "..." : githubData.publicRepos}
+                  {githubLoading ? "..." : githubData?.publicRepos}
                 </div>
               </div>
 
@@ -95,7 +95,7 @@ export function TelemetryDashboard() {
                   <span>Stars</span>
                 </div>
                 <div className="text-2xl font-bold font-mono text-amber-400 mt-1">
-                  {githubLoading ? "..." : githubData.totalStars}
+                  {githubLoading ? "..." : githubData?.totalStars}
                 </div>
               </div>
 
@@ -105,7 +105,7 @@ export function TelemetryDashboard() {
                   <span>YoY Commits</span>
                 </div>
                 <div className="text-2xl font-bold font-mono text-emerald-400 mt-1">
-                  {githubLoading ? "..." : githubData.contributionsThisYear}
+                  {githubLoading ? "..." : githubData?.contributionsThisYear}
                 </div>
               </div>
             </div>

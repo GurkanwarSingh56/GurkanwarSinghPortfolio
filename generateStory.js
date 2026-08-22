@@ -1,4 +1,6 @@
-import { ProjectStory } from "@/types/projectStory";
+import fs from 'fs';
+
+const tsContent = `import { ProjectStory } from "@/types/projectStory";
 
 export const COLLEGE_ERP_STORY: ProjectStory = {
   id: "college-erp",
@@ -113,7 +115,15 @@ export const COLLEGE_ERP_STORY: ProjectStory = {
       {
         fileName: "attendance.sql",
         language: "sql",
-        code: "CREATE POLICY 'Teachers can insert attendance' ON attendance FOR INSERT TO authenticated WITH CHECK (auth.uid() IN (SELECT teacher_id FROM teacher_subjects WHERE subject_id = attendance.subject_id));",
+        code: \`CREATE POLICY "Teachers can insert attendance for assigned subjects"
+ON attendance FOR INSERT
+TO authenticated
+WITH CHECK (
+  auth.uid() IN (
+    SELECT teacher_id FROM teacher_subjects 
+    WHERE subject_id = attendance.subject_id
+  )
+);\`,
         explanation: "This PostgreSQL RLS policy ensures that a teacher can only submit attendance records for the specific subjects they are assigned to teach. It runs at the database level, making it impossible to bypass via API manipulation."
       }
     ],
@@ -231,3 +241,7 @@ export const COLLEGE_ERP_STORY: ProjectStory = {
     ]
   }
 };
+\`;
+
+fs.writeFileSync('src/data/projectStoryData.ts', tsContent);
+console.log('projectStoryData.ts generated successfully');

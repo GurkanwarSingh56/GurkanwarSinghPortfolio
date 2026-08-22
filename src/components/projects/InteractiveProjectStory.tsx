@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { NOVA_AGENT_STORY } from "@/data/projectStoryData";
+import { COLLEGE_ERP_STORY } from "@/data/projectStoryData";
 import { playClickSound, playTerminalKeySound } from "@/lib/audio";
 import { useAppStore } from "@/store/useAppStore";
 import {
@@ -29,7 +29,7 @@ export function InteractiveProjectStory() {
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
-  const story = NOVA_AGENT_STORY;
+  const story = COLLEGE_ERP_STORY;
 
   if (!story) {
     return null; // Awaiting verified project case studies

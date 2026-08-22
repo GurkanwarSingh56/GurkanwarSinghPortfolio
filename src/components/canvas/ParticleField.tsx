@@ -7,14 +7,15 @@ import * as THREE from "three";
 export function ParticleField({ count = 180 }: { count?: number }) {
   const pointsRef = useRef<THREE.Points>(null);
 
-  const particlesPosition = useMemo(() => {
-    const positions = new Float32Array(count * 3);
+  // eslint-disable-next-line react-hooks/purity
+  const positions = useMemo(() => {
+    const pos = new Float32Array(count * 3);
     for (let i = 0; i < count; i++) {
-      positions[i * 3] = (Math.random() - 0.5) * 16;
-      positions[i * 3 + 1] = (Math.random() - 0.5) * 16;
-      positions[i * 3 + 2] = (Math.random() - 0.5) * 16;
+      pos[i * 3] = (Math.random() - 0.5) * 16;
+      pos[i * 3 + 1] = (Math.random() - 0.5) * 16;
+      pos[i * 3 + 2] = (Math.random() - 0.5) * 16;
     }
-    return positions;
+    return pos;
   }, [count]);
 
   useFrame((_, delta) => {
@@ -29,7 +30,10 @@ export function ParticleField({ count = 180 }: { count?: number }) {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          args={[particlesPosition, 3]}
+          count={positions.length / 3}
+          array={positions}
+          itemSize={3}
+          args={[positions, 3]}
         />
       </bufferGeometry>
       <pointsMaterial

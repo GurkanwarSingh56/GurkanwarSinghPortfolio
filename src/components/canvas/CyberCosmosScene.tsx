@@ -101,6 +101,7 @@ export function Satellites() {
 export function NeuralConstellation({ count = 45 }: { count?: number }) {
   const groupRef = useRef<THREE.Group>(null);
 
+  // eslint-disable-next-line react-hooks/purity
   const nodes = useMemo(() => {
     const temp = [];
     for (let i = 0; i < count; i++) {

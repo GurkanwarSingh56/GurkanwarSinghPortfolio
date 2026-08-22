@@ -16,22 +16,21 @@ const monoFont = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Gurkanwar Singh — Senior Staff Software Engineer & Systems Architect",
-  description: "DevOS Studio Portfolio of Gurkanwar Singh. Award-level interactive SaaS developer platform engineered with Next.js 15, React 19, Three.js, Framer Motion, and Firebase.",
+  title: "Gurkanwar Singh — Computer Science Student & Full-Stack Developer",
+  description: "DevOS Studio Portfolio of Gurkanwar Singh. Interactive developer platform engineered with Next.js 15, React 19, Three.js, Framer Motion, and Firebase.",
   keywords: [
     "Gurkanwar Singh",
-    "Senior Staff Engineer",
-    "Systems Architect",
+    "Computer Science Student",
+    "Full-Stack Developer",
     "Next.js 15",
     "React 19",
     "Three.js",
-    "SaaS Architecture",
-    "Fullstack Engineer"
+    "Technovate"
   ],
   authors: [{ name: "Gurkanwar Singh", url: "https://harryharvey.in" }],
   openGraph: {
-    title: "Gurkanwar Singh — DevOS SaaS Developer Portfolio",
-    description: "Award-level interactive developer platform featuring real-time telemetry, 3D R3F graphics, interactive CLI terminal, and AI agent orchestration.",
+    title: "Gurkanwar Singh — DevOS Developer Portfolio",
+    description: "Interactive developer platform featuring real-time telemetry, 3D R3F graphics, interactive CLI terminal, and AI agent orchestration.",
     url: "https://harryharvey.in",
     siteName: "Gurkanwar Singh Portfolio",
     locale: "en_US",
@@ -39,8 +38,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Gurkanwar Singh — Senior Staff Engineer Portfolio",
-    description: "DevOS SaaS Developer Control Plane with Next.js 15, React 19 & Three.js."
+    title: "Gurkanwar Singh — Developer Portfolio",
+    description: "DevOS Developer Control Plane with Next.js 15, React 19 & Three.js."
   }
 };
 

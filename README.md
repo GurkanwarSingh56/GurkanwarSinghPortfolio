@@ -16,52 +16,62 @@
 
 **DevOS** redefines traditional portfolio sites by replacing flat static pages with an **Iron Man JARVIS-inspired spatial Mission Control Control Plane**. Engineered for maximum visual impact and engineering rigor, it features:
 
-- **Iron Man JARVIS Mission Control (`JarvisMissionControl.tsx`)**: Real-time ticking HUD clock, live weather diagnostics, arc reactor AI core visualizer, command protocol triggers, and ticking activity feed stream.
-- **Cinematic OS Boot Sequence (`OSBootSequence.tsx`)**: 6-second kernel initialization sequence with Web Audio sound synthesis, CRT scanlines, and one-click `[ESC]` skip persistence.
-- **3D Cyber Cosmos Visualizer (`CyberCosmosScene.tsx`)**: Real-time WebGL scene with an interactive wireframe Earth globe, orbiting satellites, neural network constellation mesh, and floating translucent glass polyhedrons reacting to cursor motion.
-- **Zero-Hallucination AI Digital Twin (`AIDigitalTwinWidget.tsx`)**: Grounded Retrieval-Augmented Generation (RAG) assistant supporting text & voice input/output, token typing streaming, and automated spatial module navigation.
-- **Global Command Matrix (`Cmd + K`) (`CommandPalette.tsx`)**: Accessible search overlay for instant section jumps, project deep-dives, audio FX toggles, and direct priority contract inquiries.
-- **Live Telemetry Dashboard (`TelemetryDashboard.tsx`)**: Integrates GitHub REST API & LeetCode API via `@tanstack/react-query` to render live public repos, star count, commit velocity, and algorithmic problem-solving ratings.
-- **Interactive Tech Matrix & Pipeline Simulator (`ArchitecturePlayground.tsx`)**: 5-step end-to-end fullstack SaaS architecture pipeline simulator with real-time latency & throughput counters.
-- **Real-Time Visitor Guestbook (`GuestbookSection.tsx`)**: Cloud Firestore database integration for live public visitor feedback and reaction badges (🚀, 🔥, ⚡, 💎, 🧠).
+- **Living Portfolio Data Layer**: A single-source-of-truth Firestore backend powering the UI, AI Digital Twin, Hacker Terminal, and Voice Synthesizer simultaneously.
+- **Iron Man JARVIS Mission Control (`JarvisMissionControl.tsx`)**: Real-time ticking HUD clock, live weather diagnostics, arc reactor AI core visualizer, and ticking activity feed stream.
+- **Cinematic OS Boot Sequence (`OSBootSequence.tsx`)**: 6-second kernel initialization sequence with Web Audio sound synthesis and CRT scanlines.
+- **3D Cyber Cosmos Visualizer (`CyberCosmosScene.tsx`)**: Real-time WebGL scene with an interactive wireframe Earth globe, orbiting satellites, and neural network constellation meshes.
+- **Zero-Hallucination AI Digital Twin (`AIDigitalTwinWidget.tsx`)**: Grounded Retrieval-Augmented Generation (RAG) assistant supporting text & voice input/output and automated spatial navigation.
+- **Secure Admin CMS (`/admin`)**: A fully private, authenticated dashboard to seamlessly publish and manage detailed engineering case studies without code deployments.
 
 ---
 
-## 📐 System Architecture Diagram
+## 📐 Omnichannel System Architecture
+
+The core of DevOS is its **Living Portfolio Data Layer**. Unlike static sites, data is decoupled into a strictly-typed Firestore database. This enables a robust "Write Once, Render Anywhere" architecture where a single JSON project schema feeds five distinct interfaces.
+
+### Data Flow Pattern
+
+1. **Storage (Firestore):** The highly detailed, strictly typed data model resides securely in Firebase Firestore.
+2. **Data Access Layer (Firebase Admin SDK):** `src/services/db/api.ts` safely reads data server-side, never exposing raw database queries to the browser client.
+3. **Next.js Server Components:** Receives the serialized data and distributes it to the visual components.
+4. **Omnichannel Rendering:**
+   - **Visual UI**: Renders beautiful SaaS case study cards and timeline milestones.
+   - **AI Digital Twin**: Directly reads the tech stack rationale (e.g., "Why was Firebase chosen?") to answer user questions with zero hallucinations.
+   - **Hacker Terminal**: Allows developers to `cat` project files, directly viewing the structural JSON.
+   - **Voice Assistant**: Feeds project overviews into Text-To-Speech APIs for dynamic narration.
+
+### Architecture Diagram
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                           DEV-OS SYSTEM ARCHITECTURE                        │
+│                            DEV-OS SYSTEM ARCHITECTURE                       │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                             │
+│                            ┌─────────────────────┐                          │
+│                            │  Private Admin CMS  │                          │
+│                            │    (Auth Guarded)   │                          │
+│                            └─────────┬───────────┘                          │
+│                                      │ (Server Actions)                     │
+│                                      ▼                                      │
+│                            ┌─────────────────────┐                          │
+│                            │  Google Firestore   │ (Single Source of Truth) │
+│                            └─────────┬───────────┘                          │
+│                                      │                                      │
+│                            ┌─────────▼───────────┐                          │
+│                            │  Data Access Layer  │ (Firebase Admin SDK)     │
+│                            │  Next.js Server API │                          │
+│                            └─────────┬───────────┘                          │
+│                                      │                                      │
+│        ┌────────────────────────┬────┴────┬────────────────────────┐        │
+│        ▼                        ▼         ▼                        ▼        │
+│ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌───────────────┐        │
+│ │  Visual UI   │ │  AI Digital  │ │   Hacker     │ │ Voice Jarvis  │        │
+│ │ (Case Studies│ │     Twin     │ │  Terminal    │ │  Synthesizer  │        │
+│ │  & Timelines)│ │  (RAG Engine)│ │ (CLI Parser) │ │               │        │
+│ └──────────────┘ └──────────────┘ └──────────────┘ └───────────────┘        │
+│                                                                             │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │  Top Bar: Telemetry Status │ Cmd+K Search │ Theme │ Audio FX │ Contact CTA │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  ┌───────────────────────────┐   ┌──────────────────────────────────────┐  │
-│  │ 3D Cyber Cosmos Engine    │   │ JARVIS Mission Control HUD           │  │
-│  │ Three.js / R3F Canvas     │   │ Arc Reactor Core │ Activity Stream   │  │
-│  │ Cyber Earth & Satellites  │   │ Diagnostics │ Direct Protocols       │  │
-│  └───────────────────────────┘   └──────────────────────────────────────┘  │
-│                                                                             │
-│  ┌───────────────────────────────────────────────────────────────────────┐  │
-│  │ Live Engineering Telemetry Dashboard                                  │  │
-│  │ GitHub API Stream (Repos, Stars, YoY Commits) │ LeetCode Stats        │  │
-│  └───────────────────────────────────────────────────────────────────────┘  │
-│                                                                             │
-│  ┌───────────────────────────────────────────────────────────────────────┐  │
-│  │ Featured SaaS Projects Showcase & Architecture Drawer                 │  │
-│  │ Category Filter Matrix │ Systems Flow Drawer │ Live Demo Links        │  │
-│  └───────────────────────────────────────────────────────────────────────┘  │
-│                                                                             │
-│  ┌───────────────────────────┐   ┌──────────────────────────────────────┐  │
-│  │ End-to-End Pipeline Sim   │   │ Zero-Hallucination AI Digital Twin   │  │
-│  │ 5-Step Node Simulator     │   │ RAG Knowledge Base │ Voice & Text    │  │
-│  └───────────────────────────┘   └──────────────────────────────────────┘  │
-│                                                                             │
-│  ┌───────────────────────────┐   ┌──────────────────────────────────────┐  │
-│  │ Developer CLI Shell       │   │ Firebase Realtime Guestbook          │  │
-│  │ Command Parser            │   │ Firestore Live Feed & Reactions      │  │
-│  └───────────────────────────┘   └──────────────────────────────────────┘  │
-│                                                                             │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │  Footer: Social Links │ Keyboard Guide │ WCAG AA Compliance Indicator       │
 └─────────────────────────────────────────────────────────────────────────────┘
@@ -73,16 +83,17 @@
 
 | Layer | Technology | Usage |
 | :--- | :--- | :--- |
-| **Framework** | **Next.js 15 (App Router)** | React Server Components, Edge Routing, Static Optimization |
+| **Framework** | **Next.js 15 (App Router)** | React Server Components, API Routes, Edge Routing, Static Optimization |
 | **UI Library** | **React 19** | Concurrent Mode, Suspense Boundaries, Custom Hooks |
 | **Language** | **TypeScript 5** | Strict Type Safety & Custom Interface Definitions |
 | **Styling** | **Tailwind CSS v4** | CSS Variables, Obsidian Dark Tokens, Custom Glassmorphism |
+| **Database (Server)**| **Firebase Admin SDK** | Secure Server-side reads, avoiding client-side Firestore exposure |
+| **Backend** | **Firebase Firestore v12** | Database for Projects, Timelines, Leadership, Teaching, and Site Settings |
+| **Storage** | **Firebase Storage** | Media asset hosting (images, videos, PDFs) avoiding Firestore document bloat |
 | **3D Graphics** | **Three.js & React Three Fiber** | WebGL Shaders, Orbit Controls, Mesh Transmission Glass |
 | **Animations** | **Framer Motion & GSAP** | Spring Physics, Layout Morphing, Modal Scale Transitions |
 | **State Management** | **Zustand 5** | Global State (Audio, Command Palette, Selected Project) |
 | **Data Fetching** | **TanStack React Query v5** | Caching, Stale Time Management & API Refetching |
-| **Backend & Database**| **Firebase Firestore v12** | Real-time Public Guestbook & Priority Inquiry Form Logs |
-| **Search & Command** | **CmdK & Radix Primitives** | Keyboard-accessible Command Palette Overlay (`Cmd + K`) |
 | **Audio Engine** | **Web Audio API** | Real-time Synthesized Metallic Micro-Interaction Sounds |
 
 ---
@@ -104,17 +115,22 @@ cd GurkanwarSinghPortfolio
 npm install --legacy-peer-deps
 ```
 
-### 3. Configure Environment Variables (Optional)
-Create a `.env.local` file in the root directory:
+### 3. Configure Environment Variables
+Create a `.env.local` file in the root directory and add your Firebase credentials:
 ```env
+# Public Web App
 NEXT_PUBLIC_FIREBASE_API_KEY=your_firebase_api_key
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
 NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
 NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+
+# Server Only (Firebase Admin)
+FIREBASE_PROJECT_ID=your_project_id
+FIREBASE_CLIENT_EMAIL=your_firebase_client_email
+FIREBASE_PRIVATE_KEY="your_private_key"
 ```
-*(Note: If Firebase environment variables are omitted, DevOS automatically falls back to an in-memory storage queue without breaking UI functionality).*
 
 ### 4. Run Development Server
 ```bash
@@ -145,8 +161,9 @@ npm run start
 1. Push your code to GitHub.
 2. Import your repository into [Vercel](https://vercel.com/).
 3. Vercel will automatically detect **Next.js**.
-4. Set the Build Command to `npm run build` and Output Directory to `.next`.
-5. Click **Deploy**.
+4. In Vercel Project Settings, add all Environment Variables from `.env.local`.
+5. Set the Build Command to `npm run build` and Output Directory to `.next`.
+6. Click **Deploy**.
 
 ---
 

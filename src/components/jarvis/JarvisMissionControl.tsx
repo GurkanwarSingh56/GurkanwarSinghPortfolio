@@ -269,9 +269,9 @@ export function JarvisMissionControl() {
                     <GithubIcon className="w-3.5 h-3.5 text-white" />
                     <span>GitHub Activity</span>
                   </span>
-                  <span className="font-mono text-cyan-300 font-bold">2,840+ Commits</span>
+                  <span className="font-mono text-cyan-300 font-bold">Awaiting Data</span>
                 </div>
-                <div className="text-[11px] font-mono text-zinc-500">48 Repos • 620 Stars • Top 1% Velocity</div>
+                <div className="text-[11px] font-mono text-zinc-500">Connecting to GitHub API...</div>
               </div>
 
               {/* LeetCode Stat */}
@@ -281,9 +281,9 @@ export function JarvisMissionControl() {
                     <Code2 className="w-3.5 h-3.5 text-amber-400" />
                     <span>LeetCode Rating</span>
                   </span>
-                  <span className="font-mono text-amber-400 font-bold">852 Solved</span>
+                  <span className="font-mono text-amber-400 font-bold">Awaiting Data</span>
                 </div>
-                <div className="text-[11px] font-mono text-zinc-500">Top 2.5% Rank • Contest Rating 1985</div>
+                <div className="text-[11px] font-mono text-zinc-500">Connecting to LeetCode API...</div>
               </div>
             </div>
 
@@ -299,19 +299,7 @@ export function JarvisMissionControl() {
 
               <div className="space-y-2.5 font-mono text-[11px]">
                 <div className="p-2 rounded bg-zinc-950/70 border border-white/5 text-zinc-300">
-                  <span className="text-cyan-400 font-bold">[21:35:12]</span> GitHub commit pushed to main branch (<span className="text-indigo-300">novaagent-studio</span>)
-                </div>
-
-                <div className="p-2 rounded bg-zinc-950/70 border border-white/5 text-zinc-300">
-                  <span className="text-amber-400 font-bold">[21:28:40]</span> LeetCode Hard problem solved (<span className="text-amber-300">Memory 99.4%</span>)
-                </div>
-
-                <div className="p-2 rounded bg-zinc-950/70 border border-white/5 text-zinc-300">
-                  <span className="text-emerald-400 font-bold">[21:14:02]</span> Edge node latency verified: <span className="text-emerald-300">14ms P99</span>
-                </div>
-
-                <div className="p-2 rounded bg-zinc-950/70 border border-white/5 text-zinc-300">
-                  <span className="text-violet-400 font-bold">[20:45:10]</span> Firebase Firestore guestbook synced (<span className="text-violet-300">Visitor #1,420</span>)
+                  <span className="text-cyan-400 font-bold">[SYS]</span> Awaiting live telemetry stream connection...
                 </div>
               </div>
             </div>

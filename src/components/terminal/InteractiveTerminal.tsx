@@ -181,10 +181,7 @@ BIO:
 ${DEVELOPER_PROFILE.bio}
 
 METRICS:
-• Uptime SLA: 99.99%
-• YoY Commits: 2,840+
-• LeetCode Solved: 850+ (Top 2.5% Rank)
-• Active Users Served: 1.2M+`
+• Awaiting live API connection for metrics...`
         });
         break;
 
@@ -221,7 +218,7 @@ Top Language Distribution:
           newLogs.push({
             id: `out-${Date.now()}`,
             type: "output",
-            content: `GitHub Telemetry: 48 public repos | 620 stars | 2,840+ YoY commits`
+            content: `GitHub Telemetry: Awaiting API connection.`
           });
         }
         break;

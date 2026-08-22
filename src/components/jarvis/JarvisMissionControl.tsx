@@ -180,7 +180,7 @@ export function JarvisMissionControl() {
                   className="p-3.5 rounded-xl bg-zinc-950/60 hover:bg-indigo-950/40 border border-white/10 hover:border-cyan-400/50 text-left transition-all group"
                 >
                   <div className="text-[10px] font-mono text-cyan-400 font-bold mb-1">PROTO-01</div>
-                  <div className="text-xs font-bold text-zinc-100 group-hover:text-cyan-300">Inspect NovaAgent AI</div>
+                  <div className="text-xs font-bold text-zinc-100 group-hover:text-cyan-300">Inspect Latest Project</div>
                   <div className="text-[10px] text-zinc-500 font-mono mt-1">Multi-Agent Graph</div>
                 </button>
 

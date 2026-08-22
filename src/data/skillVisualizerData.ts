@@ -12,13 +12,13 @@ export const FEATURED_TECHNOLOGIES: TechnologySpec[] = [
     nodeSize: 38,
     orbitalRadius: 110,
     orbitAngleDegrees: 25,
-    masteryTier: "Architect",
-    yearsOfExperience: "4+ Years",
+    masteryTier: "Student",
+    yearsOfExperience: "Learning",
     explanation: "Next.js 15 is a cutting-edge React framework enabling React Server Components (RSC), Turbopack bundler, and zero-waterfall server-side streaming rendering.",
     whyChosen: "Selected for its unmatched zero-bundle initial rendering speeds and automatic edge routing optimization across production SaaS applications.",
     productionUseCases: [
-      "DevOS SaaS Studio Control Plane with sub-100ms page load speeds.",
-      "NovaAgent AI Studio streaming dashboard.",
+      "Building modern responsive web applications.",
+      "Developing interactive and dynamic user interfaces.",
       "Multi-tenant SaaS platforms with dynamic edge middleware authorization."
     ],
     keyFeatures: ["React Server Components (RSC)", "Turbopack Compiler", "Server Actions", "Edge Middleware"],
@@ -34,8 +34,8 @@ export const FEATURED_TECHNOLOGIES: TechnologySpec[] = [
     nodeSize: 36,
     orbitalRadius: 140,
     orbitAngleDegrees: 60,
-    masteryTier: "Principal",
-    yearsOfExperience: "5+ Years",
+    masteryTier: "Student",
+    yearsOfExperience: "Learning",
     explanation: "React 19 introduces automatic memoization via the React Compiler, Actions for async state transitions, and first-class async data loading hooks.",
     whyChosen: "Chosen for its declarative component model and seamless concurrency support when rendering complex 60 FPS WebGL canvases.",
     productionUseCases: [
@@ -55,8 +55,8 @@ export const FEATURED_TECHNOLOGIES: TechnologySpec[] = [
     nodeSize: 35,
     orbitalRadius: 170,
     orbitAngleDegrees: 100,
-    masteryTier: "Expert",
-    yearsOfExperience: "3+ Years",
+    masteryTier: "Student",
+    yearsOfExperience: "Learning",
     explanation: "Three.js and React Three Fiber (R3F) bring hardware-accelerated 3D graphics, custom GLSL shaders, and physical transmission materials to the web.",
     whyChosen: "Essential for creating award-level spatial interfaces, cyber Earth globes, and interactive neural node graphs that wow visitors.",
     productionUseCases: [
@@ -76,12 +76,12 @@ export const FEATURED_TECHNOLOGIES: TechnologySpec[] = [
     nodeSize: 32,
     orbitalRadius: 200,
     orbitAngleDegrees: 135,
-    masteryTier: "Architect",
-    yearsOfExperience: "4+ Years",
+    masteryTier: "Student",
+    yearsOfExperience: "Learning",
     explanation: "Tailwind CSS v4 is a utility-first CSS framework rewritten in Rust, featuring CSS variables, container queries, and ultra-fast build times.",
     whyChosen: "Used to construct cohesive obsidian dark design systems, sleek glassmorphism panels, and smooth micro-animations.",
     productionUseCases: [
-      "DevOS Design System token palette.",
+      "Creating personal project design systems.",
       "Responsive glassmorphism modals and interactive CLI windows."
     ],
     keyFeatures: ["Rust Compiler Engine", "CSS Variables", "Container Queries", "Glassmorphism Tokens"],
@@ -99,13 +99,13 @@ export const FEATURED_TECHNOLOGIES: TechnologySpec[] = [
     nodeSize: 37,
     orbitalRadius: 110,
     orbitAngleDegrees: 190,
-    masteryTier: "Principal",
-    yearsOfExperience: "4+ Years",
+    masteryTier: "Student",
+    yearsOfExperience: "Learning",
     explanation: "FastAPI is a modern Python Web framework built on ASGI and Pydantic for high-performance, asynchronous REST and WebSocket API microservices.",
     whyChosen: "Chosen for its sub-30ms P99 async execution times when orchestrating LLM agents and processing embedding vectors.",
     productionUseCases: [
-      "NovaAgent AI Studio sub-agent thread execution mesh.",
-      "Semantic Prompt Cache API layer saving 42% on token costs."
+      "Exploring backend API design.",
+      "Experimenting with asynchronous processing."
     ],
     keyFeatures: ["AsyncIO Event Loop", "Pydantic Type Validation", "WebSocket Streaming", "OpenAPI Auto-Docs"],
     relatedTechIds: ["pinecone", "golang", "postgres"]
@@ -120,12 +120,12 @@ export const FEATURED_TECHNOLOGIES: TechnologySpec[] = [
     nodeSize: 36,
     orbitalRadius: 140,
     orbitAngleDegrees: 225,
-    masteryTier: "Expert",
-    yearsOfExperience: "3+ Years",
+    masteryTier: "Student",
+    yearsOfExperience: "Learning",
     explanation: "Go is an open-source programming language engineered for high concurrency, lightweight memory footprints, and raw CPU performance.",
     whyChosen: "Selected for building low-latency log stream aggregators handling 50,000 requests/sec with minimal garbage collection pause.",
     productionUseCases: [
-      "PulseCloud 50,000 req/sec telemetry log ingestion engine.",
+      "Building high-performance backend tools.",
       "Kafka consumer workers distributing real-time WebSocket payloads."
     ],
     keyFeatures: ["Goroutine Concurrency", "Low Garbage Collection Latency", "Compiled Static Binary", "Standard Library Net/HTTP"],
@@ -143,13 +143,13 @@ export const FEATURED_TECHNOLOGIES: TechnologySpec[] = [
     nodeSize: 36,
     orbitalRadius: 110,
     orbitAngleDegrees: 285,
-    masteryTier: "Architect",
-    yearsOfExperience: "3+ Years",
+    masteryTier: "Student",
+    yearsOfExperience: "Learning",
     explanation: "Pinecone is a cloud-native vector database engineered for ultra-fast similarity search over high-dimensional vector embeddings.",
     whyChosen: "Essential for building Zero-Hallucination Retrieval-Augmented Generation (RAG) engines with HNSW index indexing.",
     productionUseCases: [
       "AI Digital Twin RAG Knowledge Base indexing portfolio data.",
-      "NovaAgent AI Studio sub-agent context retrieval."
+      "Exploring AI context retrieval flows."
     ],
     keyFeatures: ["HNSW Vector Indexing", "Top-K Similarity Search", "Metadata Filtering", "Sub-50ms Query Latency"],
     relatedTechIds: ["python-fastapi", "nextjs-15"]
@@ -164,10 +164,10 @@ export const FEATURED_TECHNOLOGIES: TechnologySpec[] = [
     nodeSize: 35,
     orbitalRadius: 150,
     orbitAngleDegrees: 320,
-    masteryTier: "Architect",
-    yearsOfExperience: "3+ Years",
+    masteryTier: "Student",
+    yearsOfExperience: "Learning",
     explanation: "LangChain combined with Gemini API enables dynamic prompt chain composition, tool use, and multi-agent graph execution.",
-    whyChosen: "Chosen for its long context window capability, sub-120ms token streaming speeds, and structured JSON output guarantees.",
+    whyChosen: "Chosen for its long context window capability, fast generation speeds, and structured JSON output guarantees.",
     productionUseCases: [
       "DevOS AI Assistant answering complex technical architecture queries.",
       "Automated code review & prompt deadlock detection."
@@ -187,8 +187,8 @@ export const FEATURED_TECHNOLOGIES: TechnologySpec[] = [
     nodeSize: 34,
     orbitalRadius: 180,
     orbitAngleDegrees: 350,
-    masteryTier: "Principal",
-    yearsOfExperience: "5+ Years",
+    masteryTier: "Student",
+    yearsOfExperience: "Learning",
     explanation: "PostgreSQL provides ACID-compliant relational data management, while Firebase Cloud Firestore delivers real-time document synchronization.",
     whyChosen: "Used to handle real-time visitor guestbook messages, user accounts, and transactional SaaS data.",
     productionUseCases: [

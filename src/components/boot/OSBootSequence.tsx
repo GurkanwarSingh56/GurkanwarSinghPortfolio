@@ -16,7 +16,7 @@ const BOOT_STEPS: BootStep[] = [
   { id: 1, label: "Loading DevOS BIOS v4.82", detail: "POST diagnostic check passed. Firmware integrity 100%", durationMs: 800 },
   { id: 2, label: "Initializing Memory & WebGL", detail: "Allocated 32 GB VRAM • R3F Shader Engine loaded", durationMs: 900 },
   { id: 3, label: "Connecting GitHub API", detail: "Authenticated @gurkanwarsingh • 2,840+ YoY commits verified", durationMs: 900 },
-  { id: 4, label: "Connecting AI Neural Engine", detail: "Gemini LLM pipeline linked • Sub-120ms prompt cache OK", durationMs: 900 },
+  { id: 4, label: "Connecting AI Neural Engine", detail: "Gemini LLM pipeline linked • Initializing...", durationMs: 900 },
   { id: 5, label: "Loading Project Database", detail: "Ingested 4 SaaS Architecture Nodes & Metrics Matrix", durationMs: 900 },
   { id: 6, label: "Starting Microservices Mesh", detail: "WebSocket telemetry stream online • Edge latency 14ms", durationMs: 900 },
   { id: 7, label: "Mission Control Online", detail: "JARVIS PROTOCOL MARK-42 ACTIVE. WELCOME, BOSS.", durationMs: 700 },

@@ -145,7 +145,7 @@ export function TelemetryDashboard() {
                 </div>
               </div>
               <span className="text-xs font-mono text-amber-400 px-2.5 py-1 rounded-md bg-amber-950/40 border border-amber-500/30">
-                Top 2.5% Rank
+                Rank Awaiting
               </span>
             </div>
 

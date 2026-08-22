@@ -211,7 +211,7 @@ export function LiveTelemetryControlCenter() {
                   <span>LeetCode Algorithmic Rating</span>
                 </div>
                 <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-500/30">
-                  Top 2.5% Rank
+                  Rank Awaiting
                 </span>
               </div>
 

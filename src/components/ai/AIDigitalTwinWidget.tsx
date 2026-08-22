@@ -33,7 +33,7 @@ interface Message {
 
 const PRESET_RAG_PROMPTS = [
   "What is Gurkanwar's primary tech stack?",
-  "Tell me about the NovaAgent AI Studio project",
+  "Tell me about your recent projects",
   "What are Gurkanwar's GitHub & LeetCode metrics?",
   "What is Gurkanwar's work history & background?",
   "How can I hire Gurkanwar for a Staff Engineer role?"

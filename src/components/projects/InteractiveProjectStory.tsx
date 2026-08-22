@@ -31,6 +31,10 @@ export function InteractiveProjectStory() {
 
   const story = NOVA_AGENT_STORY;
 
+  if (!story) {
+    return null; // Awaiting verified project case studies
+  }
+
   const chapters = [
     { title: "1. Problem", icon: AlertTriangle },
     { title: "2. Research", icon: Search },

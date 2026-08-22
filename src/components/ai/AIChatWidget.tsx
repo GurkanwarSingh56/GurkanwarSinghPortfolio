@@ -13,8 +13,8 @@ interface Message {
 
 const PRESET_PROMPTS = [
   "What is Gurkanwar's primary tech stack?",
-  "Has Gurkanwar built autonomous AI agent graphs?",
-  "Is Gurkanwar available for staff contracts?",
+  "What projects has Gurkanwar worked on?",
+  "Is Gurkanwar available for roles?",
   "Explain Gurkanwar's architecture philosophy"
 ];
 
@@ -26,7 +26,7 @@ export function AIChatWidget() {
     {
       id: "ai-1",
       sender: "ai",
-      text: "Hello! I am DevOS AI Assistant. Ask me anything about Gurkanwar Singh's architecture experience, technical skills, or project portfolio."
+      text: "Hello! I am DevOS AI Assistant. Ask me anything about Gurkanwar Singh's skills, projects, or background."
     }
   ]);
 
@@ -44,17 +44,17 @@ export function AIChatWidget() {
 
     // Simulate AI LLM inference stream delay
     setTimeout(() => {
-      let aiReply = "Gurkanwar Singh is a Senior Staff Engineer specializing in high-concurrency microservices, AI multi-agent orchestration, and Next.js 15 web architectures.";
+      let aiReply = "Gurkanwar Singh is a Computer Science Student and Full-Stack Developer focusing on modern web architectures.";
 
       const qLower = query.toLowerCase();
       if (qLower.includes("stack") || qLower.includes("skills") || qLower.includes("tech")) {
-        aiReply = "Gurkanwar's primary stack includes Next.js 15, React 19, TypeScript, Tailwind CSS v4, Three.js/R3F, Python FastAPI, LangChain/Vector DBs, Go (Golang), and PostgreSQL/Firebase.";
-      } else if (qLower.includes("ai") || qLower.includes("agent") || qLower.includes("llm")) {
-        aiReply = "Yes! Gurkanwar engineered NovaAgent AI Studio, a multi-agent LLM orchestration platform with sub-120ms token streaming, RAG vector pipelines, and visual graph execution.";
+        aiReply = "Gurkanwar's primary stack includes Next.js, React, TypeScript, Tailwind CSS, Node.js, and practical web technologies.";
+      } else if (qLower.includes("project") || qLower.includes("work")) {
+        aiReply = "Yes! Gurkanwar has built projects like the Technovate Website, Learning Curve Academy, TravelFlow, and an ERP System.";
       } else if (qLower.includes("available") || qLower.includes("contract") || qLower.includes("role") || qLower.includes("hire")) {
-        aiReply = "Gurkanwar is currently available for high-impact Staff / Principal Engineer contract roles and strategic technical consultations. Click below to contact him directly!";
+        aiReply = "Gurkanwar is open to full-stack development opportunities and technical roles. Click below to contact him directly!";
       } else if (qLower.includes("architecture") || qLower.includes("philosophy")) {
-        aiReply = "His architecture philosophy centers on zero-downtime microservices, edge computing, RSC server components, sub-100ms latencies, and WCAG AA accessibility compliance.";
+        aiReply = "His architecture philosophy centers on building practical, fast, and accessible web applications using modern best practices.";
       }
 
       setMessages((prev) => [...prev, { id: `ai-${Date.now()}`, sender: "ai", text: aiReply }]);

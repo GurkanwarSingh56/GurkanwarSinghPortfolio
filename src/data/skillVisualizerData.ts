@@ -116,7 +116,6 @@ export const FEATURED_TECHNOLOGIES: TechnologySpec[] = [
     category: "backend",
     tagline: "High-Throughput Goroutine Microservice & Systems Language",
     iconName: "Cpu",
-    accentColor: "#38bdf8",
     colorHex: "#38bdf8",
     nodeSize: 36,
     orbitalRadius: 140,

@@ -1,0 +1,34 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Guestbook Collection
+    match /guestbook/{document=**} {
+      // Anyone can read the guestbook
+      allow read: if true;
+      
+      // Anyone can create an entry, but it must have specific fields
+      // and cannot overwrite existing documents.
+      allow create: if request.resource.data.keys().hasAll(['name', 'message', 'createdAt']) 
+                    && request.resource.data.name is string 
+                    && request.resource.data.message is string
+                    && request.resource.data.message.size() <= 500;
+      
+      allow update, delete: if false; // Immutable entries
+    }
+
+    // 2. Contacts Collection
+    match /contacts/{document=**} {
+      // No one can read the contacts collection (except Admins via Server SDK)
+      allow read: if false;
+      
+      // Anyone can create a contact inquiry (with field validation)
+      allow create: if request.resource.data.keys().hasAll(['name', 'email', 'message', 'createdAt'])
+                    && request.resource.data.email is string
+                    && request.resource.data.email.matches('.*@.*')
+                    && request.resource.data.message is string;
+      
+      allow update, delete: if false;
+    }
+  }
+}

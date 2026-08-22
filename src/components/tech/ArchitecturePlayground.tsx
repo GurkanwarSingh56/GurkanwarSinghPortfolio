@@ -11,6 +11,14 @@ export function ArchitecturePlayground() {
   const [activeNodeId, setActiveNodeId] = useState<string>("client-edge");
   const [isSimulating, setIsSimulating] = useState<boolean>(false);
 
+  if (!ARCHITECTURE_NODES || ARCHITECTURE_NODES.length === 0) {
+    return (
+      <div className="p-6 md:p-8 rounded-2xl glass-panel border border-indigo-500/30 text-center text-zinc-400 font-mono text-sm">
+        Architecture nodes data is currently unavailable.
+      </div>
+    );
+  }
+
   const activeNode = ARCHITECTURE_NODES.find((n) => n.id === activeNodeId) || ARCHITECTURE_NODES[0];
 
   const triggerSimulation = () => {
